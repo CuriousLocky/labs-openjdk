@@ -157,7 +157,37 @@ public final class String
      * {@link Stable} is safe here, because value is never null.
      */
     @Stable
-    private final byte[] value;
+    private byte[] value;
+
+    /**
+     * A pseudo lang that works as a pointer to an external object managed
+     * by custom string library
+     * */
+    private long valueExtern = 0;
+
+    /**
+     * Used to determine whether and how a string is managed by jdk or external
+     * library.
+     * */
+    enum StringType {
+        /**
+         * Ordinary java lang object, contents stored in {@code value} array.
+         * */
+        JavaDefault,
+        /**
+         * {@code value} is Null, and {@code valueExtern} points to external linear string.
+         * */
+        Linear,
+        /**
+         * {@code value} is Null, and {@code valueExtern} points to external binary rope.
+         * */
+        BinaryRope,
+    }
+
+    /**
+     * Representation type of the current string object
+     * */
+    private StringType stringType = StringType.JavaDefault;
 
     /**
      * The identifier of the encoding used to encode the bytes in
@@ -170,7 +200,7 @@ public final class String
      * constant folding if String instance is constant. Overwriting this
      * field after construction will cause problems.
      */
-    private final byte coder;
+    private byte coder;
 
     /** Cache the hash code for the string */
     private int hash; // Default to 0
@@ -265,6 +295,8 @@ public final class String
         this.coder = original.coder;
         this.hash = original.hash;
         this.hashIsZero = original.hashIsZero;
+        this.stringType = original.stringType;
+        this.valueExtern = original.valueExtern;
     }
 
     /**
@@ -348,6 +380,10 @@ public final class String
      * @since  1.5
      */
     public String(int[] codePoints, int offset, int count) {
+        construct(codePoints, offset, count);
+    }
+
+    private void construct(int[] codePoints, int offset, int count) {
         checkBoundsOffCount(offset, count, codePoints.length);
         if (count == 0) {
             this.value = "".value;
@@ -550,6 +586,10 @@ public final class String
      * disambiguate it against other similar methods of this class.
      */
     private String(Charset charset, byte[] bytes, int offset, int length) {
+        construct(charset, bytes, offset, length);
+    }
+
+    private void construct(Charset charset, byte[] bytes, int offset, int length) {
         if (length == 0) {
             this.value = "".value;
             this.coder = "".coder;
@@ -4846,6 +4886,10 @@ public final class String
      * is modified during string construction.
      */
     private String(char[] value, int off, int len, Void sig) {
+        construct(value, off, len, sig);
+    }
+
+    private void construct(char[] value, int off, int len, Void sig) {
         if (len == 0) {
             this.value = "".value;
             this.coder = "".coder;
@@ -4869,6 +4913,10 @@ public final class String
      * is modified during string construction.
      */
     String(AbstractStringBuilder asb, Void sig) {
+        construct(asb, sig);
+    }
+
+    private void construct(AbstractStringBuilder asb, Void sig) {
         byte[] val = asb.getValue();
         int length = asb.length();
         if (asb.isLatin1()) {
@@ -4890,6 +4938,10 @@ public final class String
     * Package private constructor which shares value array for speed.
     */
     String(byte[] value, byte coder) {
+        construct(value, coder);
+    }
+
+    private void construct(byte[] value, byte coder) {
         this.value = value;
         this.coder = coder;
     }
