@@ -163,7 +163,7 @@ public final class String
      * A pseudo lang that works as a pointer to an external object managed
      * by custom string library
      * */
-    private long valueExtern = 0;
+    private long valueExtern; // Default to 0
 
     /**
      * Used to determine whether and how a string is managed by jdk or external
@@ -187,7 +187,7 @@ public final class String
     /**
      * Representation type of the current string object
      * */
-    private StringType stringType = StringType.JavaDefault;
+    private StringType stringType; // Default t JavaDefault
 
     /**
      * The identifier of the encoding used to encode the bytes in
