@@ -160,36 +160,6 @@ public final class String
     private byte[] value;
 
     /**
-     * A pseudo lang that works as a pointer to an external object managed
-     * by custom string library
-     * */
-    private long valueExtern; // Default to 0
-
-    /**
-     * Used to determine whether and how a string is managed by jdk or external
-     * library.
-     * */
-    enum StringType {
-        /**
-         * Ordinary java lang object, contents stored in {@code value} array.
-         * */
-        JavaDefault,
-        /**
-         * {@code value} is Null, and {@code valueExtern} points to external linear string.
-         * */
-        Linear,
-        /**
-         * {@code value} is Null, and {@code valueExtern} points to external binary rope.
-         * */
-        BinaryRope,
-    }
-
-    /**
-     * Representation type of the current string object
-     * */
-    private StringType stringType; // Default t JavaDefault
-
-    /**
      * The identifier of the encoding used to encode the bytes in
      * {@code value}. The supported values in this implementation are
      *
@@ -295,8 +265,6 @@ public final class String
         this.coder = original.coder;
         this.hash = original.hash;
         this.hashIsZero = original.hashIsZero;
-        this.stringType = original.stringType;
-        this.valueExtern = original.valueExtern;
     }
 
     /**
