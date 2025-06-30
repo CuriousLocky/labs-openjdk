@@ -60,7 +60,7 @@ import static java.lang.String.checkOffset;
  * @author      Ulf Zibis
  * @since       1.5
  */
-abstract sealed class AbstractStringBuilder implements Appendable, CharSequence
+public abstract sealed class AbstractStringBuilder implements Appendable, CharSequence
     permits StringBuilder, StringBuffer {
     /**
      * The value is used for character storage.

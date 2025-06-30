@@ -40,7 +40,7 @@ import java.lang.invoke.MethodType;
  * from {@link java.lang.invoke.StringConcatFactory}, and used in {@link java.lang.invoke.MethodHandle}
  * combinators there.
  */
-final class StringConcatHelper {
+public final class StringConcatHelper {
     static abstract class StringConcatBase {
         @Stable
         final String[] constants;

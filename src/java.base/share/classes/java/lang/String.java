@@ -141,7 +141,7 @@ import sun.nio.cs.UTF_8;
  * @jls     15.18.1 String Concatenation Operator +
  */
 
-public final class String
+public non-sealed class String
     implements java.io.Serializable, Comparable<String>, CharSequence,
                Constable, ConstantDesc {
 
@@ -544,12 +544,22 @@ public final class String
     }
 
     /**
-     * This method does not do any precondition checks on its arguments.
-     * <p>
-     * Important: parameter order of this method is deliberately changed in order to
-     * disambiguate it against other similar methods of this class.
+     * Private constructor for internal use.
+     * Initializes a new {@code String} by decoding the specified subarray of
+     * bytes using the given {@link java.nio.charset.Charset}.
+     * This method does not perform any precondition checks on its arguments.
+     * The parameter order is deliberately different to disambiguate it from
+     * other constructors.
+     *
+     * @param charset The {@linkplain java.nio.charset.Charset charset} to be used
+     *                to decode the {@code bytes}.
+     *                Must not be null.
+     * @param bytes   The byte array to be decoded into characters.
+     * @param offset  The index of the first byte to decode within the {@code bytes}
+     *                array.
+     * @param length  The number of bytes to decode from the {@code bytes} array.
      */
-    private String(Charset charset, byte[] bytes, int offset, int length) {
+    public String(Charset charset, byte[] bytes, int offset, int length) {
         if (length == 0) {
             this.value = "".value;
             this.coder = "".coder;
@@ -4802,10 +4812,11 @@ public final class String
      * Invoker guarantees: dst is in UTF16 (inflate itself for asb), if two
      * coders are different, and dst is big enough (range check)
      *
+     * @param dst       the destination byte array
      * @param dstBegin  the char index, not offset of byte[]
      * @param coder     the coder of dst[]
      */
-    void getBytes(byte[] dst, int dstBegin, byte coder) {
+    public void getBytes(byte[] dst, int dstBegin, byte coder) {
         if (coder() == coder) {
             System.arraycopy(value, 0, dst, dstBegin << coder, value.length);
         } else {    // this.coder == LATIN && coder == UTF16
@@ -4820,12 +4831,13 @@ public final class String
      * Invoker guarantees: dst is in UTF16 (inflate itself for asb), if two
      * coders are different, and dst is big enough (range check)
      *
+     * @param dst       the destination byte array
      * @param srcPos    the char index, not offset of byte[]
      * @param dstBegin  the char index to start from
      * @param coder     the coder of dst[]
      * @param length    the amount of copied chars
      */
-    void getBytes(byte[] dst, int srcPos, int dstBegin, byte coder, int length) {
+    public void getBytes(byte[] dst, int srcPos, int dstBegin, byte coder, int length) {
         if (coder() == coder) {
             System.arraycopy(value, srcPos << coder, dst, dstBegin << coder, length << coder);
         } else {    // this.coder == LATIN && coder == UTF16
@@ -4833,19 +4845,24 @@ public final class String
         }
     }
 
-    /*
-     * Private constructor. Trailing Void argument is there for
-     * disambiguating it against other (public) constructors.
-     *
-     * Stores the char[] value into a byte[] that each byte represents
-     * the8 low-order bits of the corresponding character, if the char[]
-     * contains only latin1 character. Or a byte[] that stores all
-     * characters in their byte sequences defined by the {@code StringUTF16}.
-     *
-     * <p> The contents of the string are unspecified if the character array
+    /**
+     * Private constructor for internal use, disambiguated by the trailing Void
+     * parameter.
+     * Allocates a new {@code String} from a character array, offset, and length.
+     * It handles String compaction: if {@code COMPACT_STRINGS} is true, it attempts
+     * to compress the char array into a byte array (if all characters are Latin-1).
+     * Otherwise, it stores the characters as UTF-16.
+     * <p>
+     * The contents of the string are unspecified if the character array
      * is modified during string construction.
+     *
+     * @param value The source character array.
+     * @param off   The initial offset into the {@code value} array.
+     * @param len   The number of characters to use from the {@code value} array.
+     * @param sig   A trailing Void argument for disambiguation against public
+     *              constructors.
      */
-    private String(char[] value, int off, int len, Void sig) {
+    public String(char[] value, int off, int len, Void sig) {
         if (len == 0) {
             this.value = "".value;
             this.coder = "".coder;
@@ -4861,14 +4878,25 @@ public final class String
         this.value = StringUTF16.toBytes(value, off, len);
     }
 
-    /*
-     * Package private constructor. Trailing Void argument is there for
-     * disambiguating it against other (public) constructors.
-     *
-     * <p> The contents of the string are unspecified if the {@code StringBuilder}
+    /**
+     * Package-private constructor, disambiguated by the trailing Void parameter.
+     * Allocates a new {@code String} from an {@link AbstractStringBuilder}
+     * instance.
+     * The contents of the {@code AbstractStringBuilder} are copied.
+     * It respects the coder (Latin-1 or UTF-16) of the
+     * {@code AbstractStringBuilder}
+     * and attempts String compaction if applicable and enabled.
+     * <p>
+     * The contents of the string are unspecified if the
+     * {@code AbstractStringBuilder}
      * is modified during string construction.
+     *
+     * @param asb The {@code AbstractStringBuilder} (e.g., {@code StringBuilder} or
+     *            {@code StringBuffer})
+     *            from which to create the string.
+     * @param sig A trailing Void argument for disambiguation.
      */
-    String(AbstractStringBuilder asb, Void sig) {
+    public String(AbstractStringBuilder asb, Void sig) {
         byte[] val = asb.getValue();
         int length = asb.length();
         if (asb.isLatin1()) {
@@ -4886,10 +4914,22 @@ public final class String
         }
     }
 
-   /*
-    * Package private constructor which shares value array for speed.
-    */
-    String(byte[] value, byte coder) {
+    /**
+     * Package-private constructor designed for performance by sharing the input
+     * byte array.
+     * This constructor directly uses the provided byte array and coder without
+     * copying,
+     * making it faster but requiring the caller to ensure the array is not modified
+     * externally
+     * after the String is created.
+     *
+     * @param value The byte array containing the character data. This array is used
+     *              directly
+     *              and NOT copied.
+     * @param coder The coder for the {@code value} array (e.g., {@code LATIN1} or
+     *              {@code UTF16}).
+     */
+    public String(byte[] value, byte coder) {
         this.value = value;
         this.coder = coder;
     }

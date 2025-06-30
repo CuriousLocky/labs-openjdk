@@ -88,7 +88,7 @@ import java.io.StreamCorruptedException;
  * @see         java.lang.String
  * @since       1.5
  */
-public final class StringBuilder
+public non-sealed class StringBuilder
     extends AbstractStringBuilder
     implements Appendable, java.io.Serializable, Comparable<StringBuilder>, CharSequence
 {
