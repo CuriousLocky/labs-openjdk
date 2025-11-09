@@ -45,6 +45,8 @@
 #include "runtime/safepointVerifiers.hpp"
 #include "utilities/copy.hpp"
 
+#include <cstdio>
+
 inline InstanceKlass* klassVtable::ik() const {
   return InstanceKlass::cast(_klass);
 }
@@ -110,6 +112,7 @@ void klassVtable::compute_vtable_size_and_num_mirandas(
       // Someone is attempting to override java.lang.Object incorrectly on the
       // bootclasspath.  The JVM cannot recover from this error including throwing
       // an exception
+      printf("base_vtable_size expecting: %d, current: %d\n", Universe::base_vtable_size(), vtable_length);
       vm_exit_during_initialization("Incompatible definition of java.lang.Object");
     } else {
       // Someone is attempting to redefine java.lang.Object incorrectly.  The

@@ -1438,7 +1438,7 @@ int ClassLoader::compute_Object_vtable() {
   // hardwired for JDK1.2 -- would need to duplicate class file parsing
   // code to determine actual value from file
   // Would be value '11' if finals were in vtable
-  int JDK_1_2_Object_vtable_size = 5;
+  int JDK_1_2_Object_vtable_size = 6;
   return JDK_1_2_Object_vtable_size * vtableEntry::size();
 }
 
