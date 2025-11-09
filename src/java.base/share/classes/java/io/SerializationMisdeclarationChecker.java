@@ -141,7 +141,7 @@ final class SerializationMisdeclarationChecker {
     private static void checkPrivateMethod(Class<?> cl,
             String name, Class<?>[] paramTypes, Class<?> retType) {
         for (Method m : cl.getDeclaredMethods()) {
-            if (m.getName().equals(name)) {
+            if (m.getName().specialEquals(name)) {
                 checkPrivateMethod(cl, m, paramTypes, retType);
             }
         }
@@ -172,7 +172,7 @@ final class SerializationMisdeclarationChecker {
             String name, Class<?>[] paramTypes, Class<?> retType) {
         for (Class<?> superCl = cl; superCl != null; superCl = superCl.getSuperclass()) {
             for (Method m : superCl.getDeclaredMethods()) {
-                if (m.getName().equals(name)) {
+                if (m.getName().specialEquals(name)) {
                     checkAccessibleMethod(cl, superCl, m, paramTypes, retType);
                 }
             }
@@ -204,7 +204,7 @@ final class SerializationMisdeclarationChecker {
 
     private static boolean isSamePackage(Class<?> cl0, Class<?> cl1) {
         return cl0.getClassLoader() == cl1.getClassLoader()
-                && cl0.getPackageName().equals(cl1.getPackageName());
+                && cl0.getPackageName().specialEquals(cl1.getPackageName());
     }
 
     private static boolean isOrdinaryClass(Class<?> cl) {

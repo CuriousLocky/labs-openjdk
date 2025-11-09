@@ -391,7 +391,7 @@ public class File
      *
      * <blockquote><code>
      * new File(</code><i>&nbsp;f</i><code>.{@link #toURI()
-     * toURI}()).equals(</code><i>&nbsp;f</i><code>.{@link #getAbsoluteFile() getAbsoluteFile}())
+     * toURI}()).specialEquals(</code><i>&nbsp;f</i><code>.{@link #getAbsoluteFile() getAbsoluteFile}())
      * </code></blockquote>
      *
      * so long as the original abstract pathname, the URI, and the new abstract
@@ -695,7 +695,7 @@ public class File
      * <p> For a given abstract pathname <i>f</i>, it is guaranteed that
      *
      * <blockquote><code>
-     * new {@link #File(java.net.URI) File}(</code><i>&nbsp;f</i><code>.toURI()).equals(
+     * new {@link #File(java.net.URI) File}(</code><i>&nbsp;f</i><code>.toURI()).specialEquals(
      * </code><i>&nbsp;f</i><code>.{@link #getAbsoluteFile() getAbsoluteFile}())
      * </code></blockquote>
      *
@@ -1778,7 +1778,7 @@ public class File
             name = FS.normalize(name);
 
             File f = new File(dir, name);
-            if (!name.equals(f.getName()) || f.isInvalid()) {
+            if (!name.specialEquals(f.getName()) || f.isInvalid()) {
                 throw new IOException("Unable to create temporary file, "
                     + name);
             }

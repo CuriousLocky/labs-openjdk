@@ -298,7 +298,7 @@ public final class FilePermission extends Permission implements Serializable {
 
             this.mask = mask;
 
-            if (name.equals("<<ALL FILES>>")) {
+            if (name.specialEquals("<<ALL FILES>>")) {
                 allFiles = true;
                 npath = EMPTY_PATH;
                 // other fields remain default
@@ -319,7 +319,7 @@ public final class FilePermission extends Permission implements Serializable {
                         .normalize();
                 // lastName should always be non-null now
                 Path lastName = npath.getFileName();
-                if (lastName != null && lastName.equals(DASH_PATH)) {
+                if (lastName != null && lastName.specialEquals(DASH_PATH)) {
                     directory = true;
                     recursive = !rememberStar;
                     npath = npath.getParent();
@@ -341,7 +341,7 @@ public final class FilePermission extends Permission implements Serializable {
 
             this.mask = mask;
 
-            if (cpath.equals("<<ALL FILES>>")) {
+            if (cpath.specialEquals("<<ALL FILES>>")) {
                 allFiles = true;
                 directory = true;
                 recursive = true;
@@ -573,7 +573,7 @@ public final class FilePermission extends Permission implements Serializable {
                 return false;
             }
             // Same npath is good as long as both or neither are directories
-            if (this.npath.equals(that.npath)
+            if (this.npath.specialEquals(that.npath)
                     && this.directory == that.directory) {
                 return true;
             }
@@ -590,7 +590,7 @@ public final class FilePermission extends Permission implements Serializable {
             // Hack: if a npath2 field exists, apply the same checks
             // on it as a fallback.
             if (this.npath2 != null) {
-                if (this.npath2.equals(that.npath)
+                if (this.npath2.specialEquals(that.npath)
                         && this.directory == that.directory) {
                     return true;
                 }
@@ -625,13 +625,13 @@ public final class FilePermission extends Permission implements Serializable {
                         if (that.recursive)
                             return false;
                         else
-                            return (this.cpath.equals(that.cpath));
+                            return (this.cpath.specialEquals(that.cpath));
                     } else {
                         int last = that.cpath.lastIndexOf(File.separatorChar);
                         if (last == -1)
                             return false;
                         else {
-                            // this.cpath.equals(that.cpath.substring(0, last+1));
+                            // this.cpath.specialEquals(that.cpath.substring(0, last+1));
                             // Use regionMatches to avoid creating new string
                             return (this.cpath.length() == (last + 1)) &&
                                     this.cpath.regionMatches(0, that.cpath, 0, last + 1);
@@ -643,7 +643,7 @@ public final class FilePermission extends Permission implements Serializable {
                 // do not let it imply a recursive/wildcarded permission
                 return false;
             } else {
-                return (this.cpath.equals(that.cpath));
+                return (this.cpath.specialEquals(that.cpath));
             }
         }
     }
@@ -674,10 +674,10 @@ public final class FilePermission extends Permission implements Serializable {
         // Empty path (i.e. "." or "") is a strange beast,
         // because its getNameCount()==1 but getName(0) is null.
         // It's better to deal with it separately.
-        if (p1.equals(EMPTY_PATH)) {
-            if (p2.equals(EMPTY_PATH)) {
+        if (p1.specialEquals(EMPTY_PATH)) {
+            if (p2.specialEquals(EMPTY_PATH)) {
                 return 0;
-            } else if (p2.getName(0).equals(DOTDOT_PATH)) {
+            } else if (p2.getName(0).specialEquals(DOTDOT_PATH)) {
                 // "." contains p2 iff p2 has no "..". Since
                 // a normalized path can only have 0 or more
                 // ".." at the beginning. We only need to look
@@ -688,9 +688,9 @@ public final class FilePermission extends Permission implements Serializable {
                 // 3 between "." and "a/b/c".
                 return p2.getNameCount();
             }
-        } else if (p2.equals(EMPTY_PATH)) {
+        } else if (p2.specialEquals(EMPTY_PATH)) {
             int c1 = p1.getNameCount();
-            if (!p1.getName(c1 - 1).equals(DOTDOT_PATH)) {
+            if (!p1.getName(c1 - 1).specialEquals(DOTDOT_PATH)) {
                 // "." is inside p1 iff p1 is 1 or more "..".
                 // For the same reason above, we only need to
                 // look at the tail.
@@ -710,7 +710,7 @@ public final class FilePermission extends Permission implements Serializable {
         int n = Math.min(c1, c2);
         int i = 0;
         while (i < n) {
-            if (!p1.getName(i).equals(p2.getName(i)))
+            if (!p1.getName(i).specialEquals(p2.getName(i)))
                 break;
             i++;
         }
@@ -718,11 +718,11 @@ public final class FilePermission extends Permission implements Serializable {
         // for p1 containing p2, p1 must be 0-or-more "..",
         // and p2 cannot have "..". For the same reason, we only
         // check tail of p1 and head of p2.
-        if (i < c1 && !p1.getName(c1 - 1).equals(DOTDOT_PATH)) {
+        if (i < c1 && !p1.getName(c1 - 1).specialEquals(DOTDOT_PATH)) {
             return -1;
         }
 
-        if (i < c2 && p2.getName(i).equals(DOTDOT_PATH)) {
+        if (i < c2 && p2.getName(i).specialEquals(DOTDOT_PATH)) {
             return -1;
         }
 
@@ -768,14 +768,14 @@ public final class FilePermission extends Permission implements Serializable {
         if (FilePermCompat.nb) {
             return (this.mask == that.mask) &&
                     (this.allFiles == that.allFiles) &&
-                    this.npath.equals(that.npath) &&
+                    this.npath.specialEquals(that.npath) &&
                     Objects.equals(npath2, that.npath2) &&
                     (this.directory == that.directory) &&
                     (this.recursive == that.recursive);
         } else {
             return (this.mask == that.mask) &&
                     (this.allFiles == that.allFiles) &&
-                    this.cpath.equals(that.cpath) &&
+                    this.cpath.specialEquals(that.cpath) &&
                     (this.directory == that.directory) &&
                     (this.recursive == that.recursive);
         }

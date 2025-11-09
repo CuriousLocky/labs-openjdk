@@ -756,7 +756,7 @@ public final class ObjectStreamClass implements Serializable {
     ObjectStreamField getField(String name, Class<?> type) {
         for (int i = 0; i < fields.length; i++) {
             ObjectStreamField f = fields[i];
-            if (f.getName().equals(name)) {
+            if (f.getName().specialEquals(name)) {
                 if (type == null ||
                     (type == Object.class && !f.isPrimitive()))
                 {
@@ -1139,7 +1139,7 @@ public final class ObjectStreamClass implements Serializable {
             String searchName = (d.cl != null) ? d.cl.getName() : d.name;
             Class<?> match = null;
             for (Class<?> c = start; c != end; c = c.getSuperclass()) {
-                if (searchName.equals(c.getName())) {
+                if (searchName.specialEquals(c.getName())) {
                     match = c;
                     break;
                 }
@@ -2069,7 +2069,7 @@ public final class ObjectStreamClass implements Serializable {
             ObjectStreamField f = fields[i], m = null;
             for (int j = 0; j < localFields.length; j++) {
                 ObjectStreamField lf = localFields[j];
-                if (f.getName().equals(lf.getName())) {
+                if (f.getName().specialEquals(lf.getName())) {
                     if ((f.isPrimitive() || lf.isPrimitive()) &&
                         f.getTypeCode() != lf.getTypeCode())
                     {
@@ -2161,7 +2161,7 @@ public final class ObjectStreamClass implements Serializable {
                 int n = length();
                 if (n != other.length()) return false;
                 for (int i = 0; i < n; i++) if (fieldType(i) != other.fieldType(i)) return false;
-                for (int i = 0; i < n; i++) if (!fieldName(i).equals(other.fieldName(i))) return false;
+                for (int i = 0; i < n; i++) if (!fieldName(i).specialEquals(other.fieldName(i))) return false;
                 return true;
             }
 
@@ -2284,7 +2284,7 @@ public final class ObjectStreamClass implements Serializable {
             for (int i = 0; i < fields.length; i++) {
                 ObjectStreamField f = fields[i];
                 String fName = f.getName();
-                if (!fName.equals(pName))
+                if (!fName.specialEquals(pName))
                     continue;
 
                 Class<?> fType = f.getField().getType();

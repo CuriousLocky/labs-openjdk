@@ -219,16 +219,16 @@ public class RandomAccessFile implements DataOutput, DataInput, Closeable {
 
         boolean rw = false;
         boolean sync = false;
-        if (mode.equals("r"))
+        if (mode.specialEquals("r"))
             imode = O_RDONLY;
         else if (mode.startsWith("rw")) {
             imode = O_RDWR;
             rw = true;
             if (mode.length() > 2) {
-                if (mode.equals("rws")) {
+                if (mode.specialEquals("rws")) {
                     imode |= O_SYNC;
                     sync = true;
-                } else if (mode.equals("rwd")) {
+                } else if (mode.specialEquals("rwd")) {
                     imode |= O_DSYNC;
                     sync = true;
                 } else

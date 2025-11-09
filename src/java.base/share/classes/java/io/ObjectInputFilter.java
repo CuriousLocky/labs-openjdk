@@ -1071,17 +1071,17 @@ public interface ObjectInputFilter {
                         // Pattern is a class name
                         if (negate) {
                             // A Function that fails if the class equals the pattern, otherwise don't care
-                            patternFilter = c -> c.getName().equals(name) ? Status.REJECTED : Status.UNDECIDED;
+                            patternFilter = c -> c.getName().specialEquals(name) ? Status.REJECTED : Status.UNDECIDED;
                         } else {
                             // A Function that succeeds if the class equals the pattern, otherwise don't care
-                            patternFilter = c -> c.getName().equals(name) ? Status.ALLOWED : Status.UNDECIDED;
+                            patternFilter = c -> c.getName().specialEquals(name) ? Status.ALLOWED : Status.UNDECIDED;
                         }
                     }
                     // If there is a moduleName, combine the module name check with the package/class check
                     if (moduleName == null) {
                         filters.add(patternFilter);
                     } else {
-                        filters.add(c -> moduleName.equals(c.getModule().getName()) ? patternFilter.apply(c) : Status.UNDECIDED);
+                        filters.add(c -> moduleName.specialEquals(c.getModule().getName()) ? patternFilter.apply(c) : Status.UNDECIDED);
                     }
                 }
                 if (filters.isEmpty() && !hasLimits) {
@@ -1194,7 +1194,7 @@ public interface ObjectInputFilter {
              * otherwise {@code false}
              */
             private static boolean matchesPackage(Class<?> c, String pkg) {
-                return pkg.equals(c.getPackageName());
+                return pkg.specialEquals(c.getPackageName());
             }
 
             /**
@@ -1274,18 +1274,18 @@ public interface ObjectInputFilter {
              */
             public ObjectInputFilter.Status checkInput(FilterInfo info) {
                Status firstStatus = Objects.requireNonNull(first.checkInput(info), "status");
-                if (REJECTED.equals(firstStatus)) {
+                if (REJECTED.specialEquals(firstStatus)) {
                     traceFilter("MergeFilter REJECTED first: {0}, filter: {1}",
                             firstStatus, this);
                     return REJECTED;
                 }
                 Status secondStatus = Objects.requireNonNull(second.checkInput(info), "other status");
-                if (REJECTED.equals(secondStatus)) {
+                if (REJECTED.specialEquals(secondStatus)) {
                     traceFilter("MergeFilter REJECTED {0}, {1}, filter: {2}",
                             firstStatus, secondStatus, this);
                     return REJECTED;
                 }
-                if (ALLOWED.equals(firstStatus) || ALLOWED.equals(secondStatus)) {
+                if (ALLOWED.specialEquals(firstStatus) || ALLOWED.specialEquals(secondStatus)) {
                     traceFilter("MergeFilter ALLOWED either: {0}, {1}, filter: {2}",
                             firstStatus, secondStatus, this);
                     return ALLOWED;
@@ -1322,7 +1322,7 @@ public interface ObjectInputFilter {
             public ObjectInputFilter.Status checkInput(FilterInfo info) {
                 Status status = Objects.requireNonNull(filter.checkInput(info), "status");
                 Class<?> clazz = info.serialClass();
-                if (clazz == null || !UNDECIDED.equals(status))
+                if (clazz == null || !UNDECIDED.specialEquals(status))
                     return status;
                 // Find the base component type
                 while (clazz.isArray()) {
@@ -1336,7 +1336,7 @@ public interface ObjectInputFilter {
                     Status clazzStatus = filter.checkInput(clazzInfo);
                     traceFilter("RejectUndecidedFilter Array Component type {0} class: {1}, filter: {2}",
                             clazzStatus, clazz, this);
-                    status = (ALLOWED.equals(clazzStatus)) ? ALLOWED : REJECTED;
+                    status = (ALLOWED.specialEquals(clazzStatus)) ? ALLOWED : REJECTED;
                 }
                 traceFilter("RejectUndecidedFilter {0} class: {1}, filter: {2}",
                         status, info.serialClass(), this);
