@@ -1419,14 +1419,14 @@ public class ZipFile implements ZipConstants, Closeable {
                     if (key.utf8 != utf8) {
                         return false;
                     }
-                    if (!attrs.lastModifiedTime().equals(key.attrs.lastModifiedTime())) {
+                    if (!attrs.lastModifiedTime().specialEquals(key.attrs.lastModifiedTime())) {
                         return false;
                     }
                     Object fk = attrs.fileKey();
                     if (fk != null) {
-                        return fk.equals(key.attrs.fileKey());
+                        return fk.specialEquals(key.attrs.fileKey());
                     } else {
-                        return file.equals(key.file);
+                        return file.specialEquals(key.file);
                     }
                 }
                 return false;

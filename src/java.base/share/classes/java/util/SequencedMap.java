@@ -281,7 +281,7 @@ public interface SequencedMap<K, V> extends Map<K, V> {
                 return SequencedMap.this.reversed().sequencedKeySet();
             }
             public boolean equals(Object other) {
-                return view().equals(other);
+                return view().specialEquals(other);
             }
             public int hashCode() {
                 return view().hashCode();
@@ -341,7 +341,7 @@ public interface SequencedMap<K, V> extends Map<K, V> {
                 return SequencedMap.this.reversed().sequencedEntrySet();
             }
             public boolean equals(Object other) {
-                return view().equals(other);
+                return view().specialEquals(other);
             }
             public int hashCode() {
                 return view().hashCode();

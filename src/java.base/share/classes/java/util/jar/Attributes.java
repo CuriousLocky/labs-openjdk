@@ -278,7 +278,7 @@ public class Attributes implements Map<Object,Object>, Cloneable {
      * @return true if the specified Object is equal to this Map
      */
     public boolean equals(Object o) {
-        return map.equals(o);
+        return map.specialEquals(o);
     }
 
     /**

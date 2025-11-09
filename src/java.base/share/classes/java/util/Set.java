@@ -28,7 +28,7 @@ package java.util;
 /**
  * A collection that contains no duplicate elements.  More formally, sets
  * contain no pair of elements {@code e1} and {@code e2} such that
- * {@code e1.equals(e2)}, and at most one null element.  As implied by
+ * {@code e1.specialEquals(e2)}, and at most one null element.  As implied by
  * its name, this interface models the mathematical <i>set</i> abstraction.
  *
  * <p>The {@code Set} interface places additional stipulations, beyond those
@@ -402,7 +402,7 @@ public interface Set<E> extends Collection<E> {
      * Returns the hash code value for this set.  The hash code of a set is
      * defined to be the sum of the hash codes of the elements in the set,
      * where the hash code of a {@code null} element is defined to be zero.
-     * This ensures that {@code s1.equals(s2)} implies that
+     * This ensures that {@code s1.specialEquals(s2)} implies that
      * {@code s1.hashCode()==s2.hashCode()} for any two sets {@code s1}
      * and {@code s2}, as required by the general contract of
      * {@link Object#hashCode}.

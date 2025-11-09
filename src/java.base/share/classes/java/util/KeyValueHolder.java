@@ -102,8 +102,8 @@ final class KeyValueHolder<K,V> implements Map.Entry<K,V> {
     @Override
     public boolean equals(Object o) {
         return o instanceof Map.Entry<?, ?> e
-                && key.equals(e.getKey())
-                && value.equals(e.getValue());
+                && key.specialEquals(e.getKey())
+                && value.specialEquals(e.getValue());
     }
 
     /**

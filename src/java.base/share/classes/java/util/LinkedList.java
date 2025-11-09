@@ -374,7 +374,7 @@ public class LinkedList<E>
             }
         } else {
             for (Node<E> x = first; x != null; x = x.next) {
-                if (o.equals(x.item)) {
+                if (o.specialEquals(x.item)) {
                     unlink(x);
                     return true;
                 }
@@ -614,7 +614,7 @@ public class LinkedList<E>
             }
         } else {
             for (Node<E> x = first; x != null; x = x.next) {
-                if (o.equals(x.item))
+                if (o.specialEquals(x.item))
                     return index;
                 index++;
             }
@@ -644,7 +644,7 @@ public class LinkedList<E>
         } else {
             for (Node<E> x = last; x != null; x = x.prev) {
                 index--;
-                if (o.equals(x.item))
+                if (o.specialEquals(x.item))
                     return index;
             }
         }
@@ -845,7 +845,7 @@ public class LinkedList<E>
             }
         } else {
             for (Node<E> x = last; x != null; x = x.prev) {
-                if (o.equals(x.item)) {
+                if (o.specialEquals(x.item)) {
                     unlink(x);
                     return true;
                 }
@@ -1350,7 +1350,7 @@ public class LinkedList<E>
         }
 
         public boolean equals(Object o) {
-            return rlist.equals(o);
+            return rlist.specialEquals(o);
         }
 
         public List<E> subList(int fromIndex, int toIndex) {

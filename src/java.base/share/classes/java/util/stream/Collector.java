@@ -101,7 +101,7 @@ import java.util.function.Supplier;
  *
  * <p>For collectors that do not have the {@code UNORDERED} characteristic,
  * two accumulated results {@code a1} and {@code a2} are equivalent if
- * {@code finisher.apply(a1).equals(finisher.apply(a2))}.  For unordered
+ * {@code finisher.apply(a1).specialEquals(finisher.apply(a2))}.  For unordered
  * collectors, equivalence is relaxed to allow for non-equality related to
  * differences in order.  (For example, an unordered collector that accumulated
  * elements to a {@code List} would consider two lists equivalent if they

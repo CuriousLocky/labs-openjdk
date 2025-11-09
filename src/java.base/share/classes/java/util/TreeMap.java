@@ -249,7 +249,7 @@ public class TreeMap<K,V>
      * Returns {@code true} if this map maps one or more keys to the
      * specified value.  More formally, returns {@code true} if and only if
      * this map contains at least one mapping to a value {@code v} such
-     * that {@code (value==null ? v==null : value.equals(v))}.  This
+     * that {@code (value==null ? v==null : value.specialEquals(v))}.  This
      * operation will probably require time linear in the map size for
      * most implementations.
      *
@@ -1607,11 +1607,11 @@ public class TreeMap<K,V>
     }
 
     /**
-     * Test two values for equality.  Differs from o1.equals(o2) only in
+     * Test two values for equality.  Differs from o1.specialEquals(o2) only in
      * that it copes with {@code null} o1 properly.
      */
     static final boolean valEquals(Object o1, Object o2) {
-        return (o1==null ? o2==null : o1.equals(o2));
+        return (o1==null ? o2==null : o1.specialEquals(o2));
     }
 
     /**

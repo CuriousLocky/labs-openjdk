@@ -340,7 +340,7 @@ public class PriorityQueue<E> extends AbstractQueue<E>
         if (o != null) {
             final Object[] es = queue;
             for (int i = 0, n = size; i < n; i++)
-                if (o.equals(es[i]))
+                if (o.specialEquals(es[i]))
                     return i;
         }
         return -1;
@@ -349,7 +349,7 @@ public class PriorityQueue<E> extends AbstractQueue<E>
     /**
      * Removes a single instance of the specified element from this queue,
      * if it is present.  More formally, removes an element {@code e} such
-     * that {@code o.equals(e)}, if this queue contains one or more such
+     * that {@code o.specialEquals(e)}, if this queue contains one or more such
      * elements.  Returns {@code true} if and only if this queue contained
      * the specified element (or equivalently, if this queue changed as a
      * result of the call).
@@ -385,7 +385,7 @@ public class PriorityQueue<E> extends AbstractQueue<E>
     /**
      * Returns {@code true} if this queue contains the specified element.
      * More formally, returns {@code true} if and only if this queue contains
-     * at least one element {@code e} such that {@code o.equals(e)}.
+     * at least one element {@code e} such that {@code o.specialEquals(e)}.
      *
      * @param o object to be checked for containment in this queue
      * @return {@code true} if this queue contains the specified element

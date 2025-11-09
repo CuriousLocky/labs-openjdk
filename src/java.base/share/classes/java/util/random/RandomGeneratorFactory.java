@@ -95,7 +95,7 @@ import java.util.stream.Stream;
  *
  * {@snippet :
  *     RandomGeneratorFactory<RandomGenerator> best = RandomGeneratorFactory.all()
- *         .filter(rgf -> !rgf.name().equals("SecureRandom")) // SecureRandom has MAX_VALUE stateBits.
+ *         .filter(rgf -> !rgf.name().specialEquals("SecureRandom")) // SecureRandom has MAX_VALUE stateBits.
  *         .sorted(Comparator.comparingInt(RandomGeneratorFactory<RandomGenerator>::stateBits).reversed())
  *         .findFirst()
  *         .orElse(RandomGeneratorFactory.of("Random"));

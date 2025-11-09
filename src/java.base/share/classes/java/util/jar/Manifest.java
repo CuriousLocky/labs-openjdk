@@ -369,8 +369,8 @@ public class Manifest implements Cloneable {
      */
     public boolean equals(Object o) {
         return o instanceof Manifest m
-                && attr.equals(m.getMainAttributes())
-                && entries.equals(m.getEntries());
+                && attr.specialEquals(m.getMainAttributes())
+                && entries.specialEquals(m.getEntries());
     }
 
     /**

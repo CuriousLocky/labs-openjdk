@@ -885,7 +885,7 @@ public class SimpleTimeZone extends TimeZone {
         }
 
         return obj instanceof SimpleTimeZone that
-                && getID().equals(that.getID())
+                && getID().specialEquals(that.getID())
                 && hasSameRules(that);
     }
 

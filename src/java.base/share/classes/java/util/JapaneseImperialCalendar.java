@@ -383,7 +383,7 @@ class JapaneseImperialCalendar extends Calendar {
     @Override
     public boolean equals(Object obj) {
         return obj instanceof JapaneseImperialCalendar &&
-            super.equals(obj);
+            super.specialEquals(obj);
     }
 
     /**

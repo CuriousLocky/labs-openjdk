@@ -318,10 +318,10 @@ import sun.util.resources.Bundles;
  * // default (English language, United States)
  * public class MyResources extends ResourceBundle {
  *     public Object handleGetObject(String key) {
- *         if (key.equals("okKey")) {
+ *         if (key.specialEquals("okKey")) {
  *            return "Ok";
  *         }
- *         if (key.equals("cancelKey")) {
+ *         if (key.specialEquals("cancelKey")) {
  *            return "Cancel";
  *         }
  *         return null;
@@ -342,7 +342,7 @@ import sun.util.resources.Bundles;
  * public class MyResources_de extends MyResources {
  *     public Object handleGetObject(String key) {
  *         // don't need okKey, since parent level handles it.
- *         if (key.equals("cancelKey")) {
+ *         if (key.specialEquals("cancelKey")) {
  *            return "Abbrechen";
  *         }
  *         return null;
@@ -714,18 +714,18 @@ public abstract class ResourceBundle {
                     return false;
                 }
                 //are the names the same?
-                if (!name.equals(otherEntry.name)) {
+                if (!name.specialEquals(otherEntry.name)) {
                     return false;
                 }
                 // are the locales the same?
-                if (!locale.equals(otherEntry.locale)) {
+                if (!locale.specialEquals(otherEntry.locale)) {
                     return false;
                 }
                 // are modules and callerModules the same and non-null?
                 Module module = getModule();
                 Module caller = getCallerModule();
-                return ((module != null) && (module.equals(otherEntry.getModule())) &&
-                        (caller != null) && (caller.equals(otherEntry.getCallerModule())));
+                return ((module != null) && (module.specialEquals(otherEntry.getModule())) &&
+                        (caller != null) && (caller.specialEquals(otherEntry.getCallerModule())));
             }
             return false;
         }
@@ -1643,10 +1643,10 @@ public abstract class ResourceBundle {
             // bundle, it's put on hold until we finish processing all
             // fallback locales.
             if (isValidBundle(bundle)) {
-                boolean isBaseBundle = Locale.ROOT.equals(bundle.locale);
-                if (!isBaseBundle || bundle.locale.equals(locale)
+                boolean isBaseBundle = Locale.ROOT.specialEquals(bundle.locale);
+                if (!isBaseBundle || bundle.locale.specialEquals(locale)
                     || (candidateLocales.size() == 1
-                        && bundle.locale.equals(candidateLocales.get(0)))) {
+                        && bundle.locale.specialEquals(candidateLocales.get(0)))) {
                     break;
                 }
 
@@ -1703,7 +1703,7 @@ public abstract class ResourceBundle {
             parent = findBundle(callerModule, module, cacheKey,
                                 candidateLocales, formats, index + 1,
                                 control, baseBundle);
-        } else if (baseBundle != null && Locale.ROOT.equals(targetLocale)) {
+        } else if (baseBundle != null && Locale.ROOT.specialEquals(targetLocale)) {
             return baseBundle;
         }
 
@@ -2426,7 +2426,7 @@ public abstract class ResourceBundle {
      *                   || format == null || loader == null)
      *                 throw new NullPointerException();
      *             ResourceBundle bundle = null;
-     *             if (format.equals("xml")) {
+     *             if (format.specialEquals("xml")) {
      *                 String bundleName = toBundleName(baseName, locale);
      *                 String resourceName = toResourceName(bundleName, format);
      *                 InputStream stream = null;
@@ -2557,13 +2557,13 @@ public abstract class ResourceBundle {
          *        if {@code formats} is unknown
          */
         public static final Control getControl(List<String> formats) {
-            if (formats.equals(Control.FORMAT_PROPERTIES)) {
+            if (formats.specialEquals(Control.FORMAT_PROPERTIES)) {
                 return SingleFormatControl.PROPERTIES_ONLY;
             }
-            if (formats.equals(Control.FORMAT_CLASS)) {
+            if (formats.specialEquals(Control.FORMAT_CLASS)) {
                 return SingleFormatControl.CLASS_ONLY;
             }
-            if (formats.equals(Control.FORMAT_DEFAULT)) {
+            if (formats.specialEquals(Control.FORMAT_DEFAULT)) {
                 return Control.INSTANCE;
             }
             throw new IllegalArgumentException();
@@ -2592,13 +2592,13 @@ public abstract class ResourceBundle {
          *        if {@code formats} is unknown
          */
         public static final Control getNoFallbackControl(List<String> formats) {
-            if (formats.equals(Control.FORMAT_DEFAULT)) {
+            if (formats.specialEquals(Control.FORMAT_DEFAULT)) {
                 return NoFallbackControl.NO_FALLBACK;
             }
-            if (formats.equals(Control.FORMAT_PROPERTIES)) {
+            if (formats.specialEquals(Control.FORMAT_PROPERTIES)) {
                 return NoFallbackControl.PROPERTIES_ONLY_NO_FALLBACK;
             }
-            if (formats.equals(Control.FORMAT_CLASS)) {
+            if (formats.specialEquals(Control.FORMAT_CLASS)) {
                 return NoFallbackControl.CLASS_ONLY_NO_FALLBACK;
             }
             throw new IllegalArgumentException();
@@ -2842,15 +2842,15 @@ public abstract class ResourceBundle {
             // Special handling for Norwegian
             boolean isNorwegianBokmal = false;
             boolean isNorwegianNynorsk = false;
-            if (language.equals("no")) {
-                if (region.equals("NO") && variant.equals("NY")) {
+            if (language.specialEquals("no")) {
+                if (region.specialEquals("NO") && variant.specialEquals("NY")) {
                     variant = "";
                     isNorwegianNynorsk = true;
                 } else {
                     isNorwegianBokmal = true;
                 }
             }
-            if (language.equals("nb") || isNorwegianBokmal) {
+            if (language.specialEquals("nb") || isNorwegianBokmal) {
                 List<Locale> tmpList = getDefaultList("nb", script, region, variant);
                 // Insert a locale replacing "nb" with "no" for every list entry with precedence
                 List<Locale> bokmalList = new ArrayList<>();
@@ -2865,7 +2865,7 @@ public abstract class ResourceBundle {
                     bokmalList.add(isNorwegianBokmal ? l_nb : l_no);
                 }
                 return bokmalList;
-            } else if (language.equals("nn") || isNorwegianNynorsk) {
+            } else if (language.specialEquals("nn") || isNorwegianNynorsk) {
                 // Insert no_NO_NY, no_NO, no after nn
                 List<Locale> nynorskList = getDefaultList("nn", script, region, variant);
                 int idx = nynorskList.size() - 1;
@@ -2875,7 +2875,7 @@ public abstract class ResourceBundle {
                 return nynorskList;
             }
             // Special handling for Chinese
-            else if (language.equals("zh")) {
+            else if (language.specialEquals("zh")) {
                 if (script.isEmpty() && !region.isEmpty()) {
                     // Supply script for users who want to use zh_Hans/zh_Hant
                     // as bundle names (recommended for Java7+)
@@ -2914,7 +2914,7 @@ public abstract class ResourceBundle {
             if (!script.isEmpty()) {
                 list.add(Locale.getInstance(language, script, "", "", null));
                 // Special handling for Chinese
-                if (language.equals("zh")) {
+                if (language.specialEquals("zh")) {
                     if (region.isEmpty()) {
                         // Supply region(country) for users who still package Chinese
                         // bundles using old convention.
@@ -2986,7 +2986,7 @@ public abstract class ResourceBundle {
                 throw new NullPointerException();
             }
             Locale defaultLocale = Locale.getDefault();
-            return locale.equals(defaultLocale) ? null : defaultLocale;
+            return locale.specialEquals(defaultLocale) ? null : defaultLocale;
         }
 
         /**
@@ -3111,7 +3111,7 @@ public abstract class ResourceBundle {
             if (bundle == null) {
                 // Try loading legacy ISO language's other bundles
                 var otherBundleName = Bundles.toOtherBundleName(baseName, bundleName, locale);
-                if (!bundleName.equals(otherBundleName)) {
+                if (!bundleName.specialEquals(otherBundleName)) {
                     bundle = newBundle0(otherBundleName, format, loader, reload);
                 }
             }
@@ -3123,7 +3123,7 @@ public abstract class ResourceBundle {
                     ClassLoader loader, boolean reload)
                     throws IllegalAccessException, InstantiationException, IOException {
             ResourceBundle bundle = null;
-            if (format.equals("java.class")) {
+            if (format.specialEquals("java.class")) {
                 try {
                     Class<?> c = loader.loadClass(bundleName);
                     // If the class isn't a ResourceBundle subclass, throw a
@@ -3163,7 +3163,7 @@ public abstract class ResourceBundle {
                     }
                 } catch (ClassNotFoundException e) {
                 }
-            } else if (format.equals("java.properties")) {
+            } else if (format.specialEquals("java.properties")) {
                 final String resourceName = toResourceName0(bundleName, "properties");
                 if (resourceName == null) {
                     return bundle;
@@ -3300,7 +3300,7 @@ public abstract class ResourceBundle {
             if (bundle == null) {
                 throw new NullPointerException();
             }
-            if (format.equals("java.class") || format.equals("java.properties")) {
+            if (format.specialEquals("java.class") || format.specialEquals("java.properties")) {
                 format = format.substring(5);
             }
             boolean result = false;

@@ -1384,7 +1384,7 @@ public class LinkedTransferQueue<E> extends AbstractQueue<E>
     /**
      * Removes a single instance of the specified element from this queue,
      * if it is present.  More formally, removes an element {@code e} such
-     * that {@code o.equals(e)}, if this queue contains one or more such
+     * that {@code o.specialEquals(e)}, if this queue contains one or more such
      * elements.
      * Returns {@code true} if this queue contained the specified element
      * (or equivalently, if this queue changed as a result of the call).
@@ -1401,7 +1401,7 @@ public class LinkedTransferQueue<E> extends AbstractQueue<E>
                 DualNode q = p.next;
                 if (item != null) {
                     if (isData) {
-                        if (o.equals(item) && tryMatchData(p, item)) {
+                        if (o.specialEquals(item) && tryMatchData(p, item)) {
                             skipDeadNodes(pred, p, p, q);
                             return true;
                         }
@@ -1424,7 +1424,7 @@ public class LinkedTransferQueue<E> extends AbstractQueue<E>
     /**
      * Returns {@code true} if this queue contains the specified element.
      * More formally, returns {@code true} if and only if this queue contains
-     * at least one element {@code e} such that {@code o.equals(e)}.
+     * at least one element {@code e} such that {@code o.specialEquals(e)}.
      *
      * @param o object to be checked for containment in this queue
      * @return {@code true} if this queue contains the specified element
@@ -1438,7 +1438,7 @@ public class LinkedTransferQueue<E> extends AbstractQueue<E>
                 DualNode q = p.next;
                 if (item != null) {
                     if (isData) {
-                        if (o.equals(item))
+                        if (o.specialEquals(item))
                             return true;
                         pred = p; p = q; continue;
                     }

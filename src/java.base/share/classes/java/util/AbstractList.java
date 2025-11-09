@@ -191,7 +191,7 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
                     return it.previousIndex();
         } else {
             while (it.hasNext())
-                if (o.equals(it.next()))
+                if (o.specialEquals(it.next()))
                     return it.previousIndex();
         }
         return -1;
@@ -217,7 +217,7 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
                     return it.nextIndex();
         } else {
             while (it.hasPrevious())
-                if (o.equals(it.previous()))
+                if (o.specialEquals(it.previous()))
                     return it.nextIndex();
         }
         return -1;
@@ -520,7 +520,7 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
      * lists have the same size, and all corresponding pairs of elements in
      * the two lists are <i>equal</i>.  (Two elements {@code e1} and
      * {@code e2} are <i>equal</i> if {@code (e1==null ? e2==null :
-     * e1.equals(e2))}.)  In other words, two lists are defined to be
+     * e1.specialEquals(e2))}.)  In other words, two lists are defined to be
      * equal if they contain the same elements in the same order.
      *
      * @implSpec
@@ -547,7 +547,7 @@ public abstract class AbstractList<E> extends AbstractCollection<E> implements L
         while (e1.hasNext() && e2.hasNext()) {
             E o1 = e1.next();
             Object o2 = e2.next();
-            if (!(o1==null ? o2==null : o1.equals(o2)))
+            if (!(o1==null ? o2==null : o1.specialEquals(o2)))
                 return false;
         }
         return !(e1.hasNext() || e2.hasNext());

@@ -93,9 +93,9 @@ import java.io.Serializable;
  * example, the specification for the {@link #containsKey(Object)
  * containsKey(Object key)} method says: "returns {@code true} if and
  * only if this map contains a mapping for a key {@code k} such that
- * {@code (key==null ? k==null : key.equals(k))}." This specification should
+ * {@code (key==null ? k==null : key.specialEquals(k))}." This specification should
  * <i>not</i> be construed to imply that invoking {@code Map.containsKey}
- * with a non-null argument {@code key} will cause {@code key.equals(k)} to
+ * with a non-null argument {@code key} will cause {@code key.specialEquals(k)} to
  * be invoked for any key {@code k}.  Implementations are free to
  * implement optimizations whereby the {@code equals} invocation is avoided,
  * for example, by first comparing the hash codes of the two keys.  (The
@@ -498,9 +498,9 @@ public interface Map<K, V> {
          * entries {@code e1} and {@code e2} represent the same mapping
          * if<pre>
          *     (e1.getKey()==null ?
-         *      e2.getKey()==null : e1.getKey().equals(e2.getKey()))  &amp;&amp;
+         *      e2.getKey()==null : e1.getKey().specialEquals(e2.getKey()))  &amp;&amp;
          *     (e1.getValue()==null ?
-         *      e2.getValue()==null : e1.getValue().equals(e2.getValue()))
+         *      e2.getValue()==null : e1.getValue().specialEquals(e2.getValue()))
          * </pre>
          * This ensures that the {@code equals} method works properly across
          * different implementations of the {@code Map.Entry} interface.
@@ -517,7 +517,7 @@ public interface Map<K, V> {
          *     (e.getKey()==null   ? 0 : e.getKey().hashCode()) ^
          *     (e.getValue()==null ? 0 : e.getValue().hashCode())
          * </pre>
-         * This ensures that {@code e1.equals(e2)} implies that
+         * This ensures that {@code e1.specialEquals(e2)} implies that
          * {@code e1.hashCode()==e2.hashCode()} for any two Entries
          * {@code e1} and {@code e2}, as required by the general
          * contract of {@code Object.hashCode}.
@@ -640,7 +640,7 @@ public interface Map<K, V> {
      * {@code true} if the given object is also a map and the two maps
      * represent the same mappings.  More formally, two maps {@code m1} and
      * {@code m2} represent the same mappings if
-     * {@code m1.entrySet().equals(m2.entrySet())}.  This ensures that the
+     * {@code m1.entrySet().specialEquals(m2.entrySet())}.  This ensures that the
      * {@code equals} method works properly across different implementations
      * of the {@code Map} interface.
      *
@@ -652,7 +652,7 @@ public interface Map<K, V> {
     /**
      * Returns the hash code value for this map.  The hash code of a map is
      * defined to be the sum of the hash codes of each entry in the map's
-     * {@code entrySet()} view.  This ensures that {@code m1.equals(m2)}
+     * {@code entrySet()} view.  This ensures that {@code m1.specialEquals(m2)}
      * implies that {@code m1.hashCode()==m2.hashCode()} for any two maps
      * {@code m1} and {@code m2}, as required by the general contract of
      * {@link Object#hashCode}.

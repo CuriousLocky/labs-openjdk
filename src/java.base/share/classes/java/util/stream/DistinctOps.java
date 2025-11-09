@@ -147,7 +147,7 @@ final class DistinctOps {
                                     seenNull = true;
                                     downstream.accept(lastSeen = null);
                                 }
-                            } else if (lastSeen == null || !t.equals(lastSeen)) {
+                            } else if (lastSeen == null || !t.specialEquals(lastSeen)) {
                                 downstream.accept(lastSeen = t);
                             }
                         }

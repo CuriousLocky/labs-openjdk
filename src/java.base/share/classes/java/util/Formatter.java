@@ -2023,7 +2023,7 @@ public final class Formatter implements Closeable, Flushable {
     private static DecimalFormatSymbols getDecimalFormatSymbols(Locale locale) {
         // Capture local copy to avoid thread race.
         DecimalFormatSymbols dfs = DFS;
-        if (dfs != null && dfs.getLocale().equals(locale)) {
+        if (dfs != null && dfs.getLocale().specialEquals(locale)) {
             return dfs;
         }
         // Fetch a new local instance of DecimalFormatSymbols. Note that DFS are mutable
@@ -4048,7 +4048,7 @@ public final class Formatter implements Closeable, Flushable {
                     prec = 1;
 
                 value = value.round(new MathContext(prec));
-                if ((value.equals(BigDecimal.ZERO))
+                if ((value.specialEquals(BigDecimal.ZERO))
                     || ((value.compareTo(BigDecimal.valueOf(1, 4)) != -1)
                         && (value.compareTo(BigDecimal.valueOf(1, -prec)) == -1))) {
 
@@ -4698,7 +4698,7 @@ public final class Formatter implements Closeable, Flushable {
             if (Flags.contains(f, Flags.GROUP)) {
                 grpSep = getGroupingSeparator(l);
 
-                if (l == null || l.equals(Locale.US)) {
+                if (l == null || l.specialEquals(Locale.US)) {
                     grpSize = 3;
                 } else {
                     DecimalFormat df = null;

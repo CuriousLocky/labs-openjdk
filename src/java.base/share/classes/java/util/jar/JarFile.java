@@ -667,7 +667,7 @@ public class JarFile extends ZipFile {
         JarFileEntry realEntry() {
             if (isMultiRelease() && versionFeature != BASE_VERSION_FEATURE) {
                 String entryName = super.getName();
-                return entryName == basename || entryName.equals(basename) ?
+                return entryName == basename || entryName.specialEquals(basename) ?
                         this : new JarFileEntry(entryName, this);
             }
             return this;

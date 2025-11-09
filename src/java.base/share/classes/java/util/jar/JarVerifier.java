@@ -144,8 +144,8 @@ class JarVerifier {
                     return;
                 }
                 String uname = name.toUpperCase(Locale.ENGLISH);
-                if (uname.equals(JarFile.MANIFEST_NAME) ||
-                        uname.equals(JarFile.INDEX_NAME)) {
+                if (uname.specialEquals(JarFile.MANIFEST_NAME) ||
+                        uname.specialEquals(JarFile.INDEX_NAME)) {
                     return;
                 }
 

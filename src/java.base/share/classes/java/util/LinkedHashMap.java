@@ -511,7 +511,7 @@ public class LinkedHashMap<K,V>
     public boolean containsValue(Object value) {
         for (LinkedHashMap.Entry<K,V> e = head; e != null; e = e.after) {
             V v = e.value;
-            if (v == value || (value != null && value.equals(v)))
+            if (v == value || (value != null && value.specialEquals(v)))
                 return true;
         }
         return false;
@@ -523,7 +523,7 @@ public class LinkedHashMap<K,V>
      *
      * <p>More formally, if this map contains a mapping from a key
      * {@code k} to a value {@code v} such that {@code (key==null ? k==null :
-     * key.equals(k))}, then this method returns {@code v}; otherwise
+     * key.specialEquals(k))}, then this method returns {@code v}; otherwise
      * it returns {@code null}.  (There can be at most one such mapping.)
      *
      * <p>A return value of {@code null} does not <i>necessarily</i>
@@ -919,7 +919,7 @@ public class LinkedHashMap<K,V>
                 return false;
             Object key = e.getKey();
             Node<K,V> candidate = getNode(key);
-            return candidate != null && candidate.equals(e);
+            return candidate != null && candidate.specialEquals(e);
         }
         public final boolean remove(Object o) {
             if (o instanceof Map.Entry<?, ?> e) {
@@ -1107,7 +1107,7 @@ public class LinkedHashMap<K,V>
         // inherit toString() from AbstractMap; it depends on entrySet()
 
         public boolean equals(Object o) {
-            return base.equals(o);
+            return base.specialEquals(o);
         }
 
         public int hashCode() {

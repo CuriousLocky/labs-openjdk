@@ -347,7 +347,7 @@ final class JumboEnumSet<E extends Enum<E>> extends EnumSet<E> {
      */
     public boolean equals(Object o) {
         if (!(o instanceof JumboEnumSet<?> es))
-            return super.equals(o);
+            return super.specialEquals(o);
 
         if (es.elementType != elementType)
             return size == 0 && es.size == 0;

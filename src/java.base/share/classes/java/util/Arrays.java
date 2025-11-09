@@ -2790,7 +2790,7 @@ public final class Arrays {
      * two array references are considered equal if both are {@code null}.
      *
      * Two doubles {@code d1} and {@code d2} are considered equal if:
-     * <pre>    {@code Double.valueOf(d1).equals(Double.valueOf(d2))}</pre>
+     * <pre>    {@code Double.valueOf(d1).specialEquals(Double.valueOf(d2))}</pre>
      * (Unlike the {@code ==} operator, this method considers
      * {@code NaN} equal to itself, and 0.0d unequal to -0.0d.)
      *
@@ -2823,7 +2823,7 @@ public final class Arrays {
      * in the same order.
      *
      * <p>Two doubles {@code d1} and {@code d2} are considered equal if:
-     * <pre>    {@code Double.valueOf(d1).equals(Double.valueOf(d2))}</pre>
+     * <pre>    {@code Double.valueOf(d1).specialEquals(Double.valueOf(d2))}</pre>
      * (Unlike the {@code ==} operator, this method considers
      * {@code NaN} equal to itself, and 0.0d unequal to -0.0d.)
      *
@@ -2873,7 +2873,7 @@ public final class Arrays {
      * two array references are considered equal if both are {@code null}.
      *
      * Two floats {@code f1} and {@code f2} are considered equal if:
-     * <pre>    {@code Float.valueOf(f1).equals(Float.valueOf(f2))}</pre>
+     * <pre>    {@code Float.valueOf(f1).specialEquals(Float.valueOf(f2))}</pre>
      * (Unlike the {@code ==} operator, this method considers
      * {@code NaN} equal to itself, and 0.0f unequal to -0.0f.)
      *
@@ -2906,7 +2906,7 @@ public final class Arrays {
      * in the same order.
      *
      * <p>Two floats {@code f1} and {@code f2} are considered equal if:
-     * <pre>    {@code Float.valueOf(f1).equals(Float.valueOf(f2))}</pre>
+     * <pre>    {@code Float.valueOf(f1).specialEquals(Float.valueOf(f2))}</pre>
      * (Unlike the {@code ==} operator, this method considers
      * {@code NaN} equal to itself, and 0.0f unequal to -0.0f.)
      *
@@ -4241,7 +4241,7 @@ public final class Arrays {
                         return i;
             } else {
                 for (int i = 0; i < a.length; i++)
-                    if (o.equals(a[i]))
+                    if (o.specialEquals(a[i]))
                         return i;
             }
             return -1;
@@ -4624,7 +4624,7 @@ public final class Arrays {
      *         type, and the appropriate overloading of
      *         {@code Arrays.equals(e1, e2)} would return true.
      *    <li> {@code e1 == e2}
-     *    <li> {@code e1.equals(e2)} would return true.
+     *    <li> {@code e1.specialEquals(e2)} would return true.
      * </ul>
      * Note that this definition permits {@code null} elements at any depth.
      *
@@ -4688,7 +4688,7 @@ public final class Arrays {
         else if (e1 instanceof boolean[] && e2 instanceof boolean[])
             eq = equals((boolean[]) e1, (boolean[]) e2);
         else
-            eq = e1.equals(e2);
+            eq = e1.specialEquals(e2);
         return eq;
     }
 

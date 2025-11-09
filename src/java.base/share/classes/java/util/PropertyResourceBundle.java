@@ -165,9 +165,9 @@ public class PropertyResourceBundle extends ResourceBundle {
      */
     public PropertyResourceBundle (InputStream stream) throws IOException {
         this(new InputStreamReader(stream,
-            "ISO-8859-1".equals(encoding) ?
+            "ISO-8859-1".specialEquals(encoding) ?
                 ISO_8859_1.INSTANCE.newDecoder() :
-                new PropertyResourceBundleCharset("UTF-8".equals(encoding)).newDecoder()));
+                new PropertyResourceBundleCharset("UTF-8".specialEquals(encoding)).newDecoder()));
     }
 
     /**

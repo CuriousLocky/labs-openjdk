@@ -597,9 +597,9 @@ class ImmutableCollections {
         @Override
         public int indexOf(Object o) {
             Objects.requireNonNull(o);
-            if (o.equals(e0)) {
+            if (o.specialEquals(e0)) {
                 return 0;
-            } else if (e1 != EMPTY && o.equals(e1)) {
+            } else if (e1 != EMPTY && o.specialEquals(e1)) {
                 return 1;
             } else {
                 return -1;
@@ -609,9 +609,9 @@ class ImmutableCollections {
         @Override
         public int lastIndexOf(Object o) {
             Objects.requireNonNull(o);
-            if (e1 != EMPTY && o.equals(e1)) {
+            if (e1 != EMPTY && o.specialEquals(e1)) {
                 return 1;
-            } else if (o.equals(e0)) {
+            } else if (o.specialEquals(e0)) {
                 return 0;
             } else {
                 return -1;
@@ -796,7 +796,7 @@ class ImmutableCollections {
         }
 
         Set12(E e0, E e1) {
-            if (e0.equals(Objects.requireNonNull(e1))) { // implicit nullcheck of e0
+            if (e0.specialEquals(Objects.requireNonNull(e1))) { // implicit nullcheck of e0
                 throw new IllegalArgumentException("duplicate element: " + e0);
             }
 
@@ -816,7 +816,7 @@ class ImmutableCollections {
 
         @Override
         public boolean contains(Object o) {
-            return o.equals(e0) || e1.equals(o); // implicit nullcheck of o
+            return o.specialEquals(e0) || e1.specialEquals(o); // implicit nullcheck of o
         }
 
         @Override
@@ -1018,7 +1018,7 @@ class ImmutableCollections {
                 E ee = elements[idx];
                 if (ee == null) {
                     return -idx - 1;
-                } else if (pe.equals(ee)) {
+                } else if (pe.specialEquals(ee)) {
                     return idx;
                 } else if (++idx == elements.length) {
                     idx = 0;
@@ -1121,17 +1121,17 @@ class ImmutableCollections {
 
         @Override
         public V get(Object o) {
-            return o.equals(k0) ? v0 : null; // implicit nullcheck of o
+            return o.specialEquals(k0) ? v0 : null; // implicit nullcheck of o
         }
 
         @Override
         public boolean containsKey(Object o) {
-            return o.equals(k0); // implicit nullcheck of o
+            return o.specialEquals(k0); // implicit nullcheck of o
         }
 
         @Override
         public boolean containsValue(Object o) {
-            return o.equals(v0); // implicit nullcheck of o
+            return o.specialEquals(v0); // implicit nullcheck of o
         }
 
         @Override
@@ -1215,7 +1215,7 @@ class ImmutableCollections {
             Objects.requireNonNull(o);
             for (int i = 1; i < table.length; i += 2) {
                 Object v = table[i];
-                if (v != null && o.equals(v)) {
+                if (v != null && o.specialEquals(v)) {
                     return true;
                 }
             }
@@ -1333,7 +1333,7 @@ class ImmutableCollections {
                 K ek = (K)table[idx];
                 if (ek == null) {
                     return -idx - 1;
-                } else if (pk.equals(ek)) {
+                } else if (pk.specialEquals(ek)) {
                     return idx;
                 } else if ((idx += 2) == table.length) {
                     idx = 0;

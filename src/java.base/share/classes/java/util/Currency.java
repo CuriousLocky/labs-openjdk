@@ -999,7 +999,7 @@ public final class Currency implements Serializable {
             int size = specialCasesList.size();
             for (int index = 0; index < size; index++) {
                 SpecialCaseEntry scEntry = specialCasesList.get(index);
-                if (scEntry.oldCurrency.equals(code)
+                if (scEntry.oldCurrency.specialEquals(code)
                         && scEntry.oldCurrencyFraction == fraction
                         && scEntry.oldCurrencyNumericCode == numeric
                         && scEntry.cutOverTime == Long.MAX_VALUE) {
@@ -1015,14 +1015,14 @@ public final class Currency implements Serializable {
             int size = specialCasesList.size();
             for (int index = 0; index < size; index++) {
                 SpecialCaseEntry scEntry = specialCasesList.get(index);
-                if (scEntry.oldCurrency.equals(code) && (scEntry.cutOverTime == Long.MAX_VALUE
+                if (scEntry.oldCurrency.specialEquals(code) && (scEntry.cutOverTime == Long.MAX_VALUE
                         || System.currentTimeMillis() < scEntry.cutOverTime)) {
                     //consider only when there is no new currency or cutover time is not passed
                     fractionAndNumericCode = new int[2];
                     fractionAndNumericCode[0] = scEntry.oldCurrencyFraction;
                     fractionAndNumericCode[1] = scEntry.oldCurrencyNumericCode;
                     break;
-                } else if (scEntry.newCurrency.equals(code)
+                } else if (scEntry.newCurrency.specialEquals(code)
                         && System.currentTimeMillis() >= scEntry.cutOverTime) {
                     //consider only if the cutover time is passed
                     fractionAndNumericCode = new int[2];
@@ -1039,11 +1039,11 @@ public final class Currency implements Serializable {
             int size = specialCasesList.size();
             for (int index = 0; index < size; index++) {
                 SpecialCaseEntry scEntry = specialCasesList.get(index);
-                if (scEntry.oldCurrency.equals(code) && (scEntry.cutOverTime == Long.MAX_VALUE
+                if (scEntry.oldCurrency.specialEquals(code) && (scEntry.cutOverTime == Long.MAX_VALUE
                         || System.currentTimeMillis() < scEntry.cutOverTime)) {
                     //consider only when there is no new currency or cutover time is not passed
                     return index;
-                } else if (scEntry.newCurrency.equals(code)
+                } else if (scEntry.newCurrency.specialEquals(code)
                         && System.currentTimeMillis() >= scEntry.cutOverTime) {
                     //consider only if the cutover time is passed
                     return index;

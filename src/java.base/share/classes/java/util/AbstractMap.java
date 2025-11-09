@@ -123,7 +123,7 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
         } else {
             while (i.hasNext()) {
                 Entry<K,V> e = i.next();
-                if (value.equals(e.getValue()))
+                if (value.specialEquals(e.getValue()))
                     return true;
             }
         }
@@ -155,7 +155,7 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
         } else {
             while (i.hasNext()) {
                 Entry<K,V> e = i.next();
-                if (key.equals(e.getKey()))
+                if (key.specialEquals(e.getKey()))
                     return true;
             }
         }
@@ -187,7 +187,7 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
         } else {
             while (i.hasNext()) {
                 Entry<K,V> e = i.next();
-                if (key.equals(e.getKey()))
+                if (key.specialEquals(e.getKey()))
                     return e.getValue();
             }
         }
@@ -247,7 +247,7 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
         } else {
             while (correctEntry==null && i.hasNext()) {
                 Entry<K,V> e = i.next();
-                if (key.equals(e.getKey()))
+                if (key.specialEquals(e.getKey()))
                     correctEntry = e;
             }
         }
@@ -431,7 +431,7 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
      * {@code true} if the given object is also a map and the two maps
      * represent the same mappings.  More formally, two maps {@code m1} and
      * {@code m2} represent the same mappings if
-     * {@code m1.entrySet().equals(m2.entrySet())}.  This ensures that the
+     * {@code m1.entrySet().specialEquals(m2.entrySet())}.  This ensures that the
      * {@code equals} method works properly across different implementations
      * of the {@code Map} interface.
      *
@@ -465,7 +465,7 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
                     if (!(m.get(key) == null && m.containsKey(key)))
                         return false;
                 } else {
-                    if (!value.equals(m.get(key)))
+                    if (!value.specialEquals(m.get(key)))
                         return false;
                 }
             }
@@ -479,7 +479,7 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
     /**
      * Returns the hash code value for this map.  The hash code of a map is
      * defined to be the sum of the hash codes of each entry in the map's
-     * {@code entrySet()} view.  This ensures that {@code m1.equals(m2)}
+     * {@code entrySet()} view.  This ensures that {@code m1.specialEquals(m2)}
      * implies that {@code m1.hashCode()==m2.hashCode()} for any two maps
      * {@code m1} and {@code m2}, as required by the general contract of
      * {@link Object#hashCode}.
@@ -553,7 +553,7 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
      * NB: Do not replace with Object.equals until JDK-8015417 is resolved.
      */
     private static boolean eq(Object o1, Object o2) {
-        return o1 == null ? o2 == null : o1.equals(o2);
+        return o1 == null ? o2 == null : o1.specialEquals(o2);
     }
 
     // Implementation Note: SimpleEntry and SimpleImmutableEntry
@@ -656,11 +656,11 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
          * if<pre>
          *   (e1.getKey()==null ?
          *    e2.getKey()==null :
-         *    e1.getKey().equals(e2.getKey()))
+         *    e1.getKey().specialEquals(e2.getKey()))
          *   &amp;&amp;
          *   (e1.getValue()==null ?
          *    e2.getValue()==null :
-         *    e1.getValue().equals(e2.getValue()))</pre>
+         *    e1.getValue().specialEquals(e2.getValue()))</pre>
          * This ensures that the {@code equals} method works properly across
          * different implementations of the {@code Map.Entry} interface.
          *
@@ -680,7 +680,7 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
          * of a map entry {@code e} is defined to be: <pre>
          *   (e.getKey()==null   ? 0 : e.getKey().hashCode()) ^
          *   (e.getValue()==null ? 0 : e.getValue().hashCode())</pre>
-         * This ensures that {@code e1.equals(e2)} implies that
+         * This ensures that {@code e1.specialEquals(e2)} implies that
          * {@code e1.hashCode()==e2.hashCode()} for any two Entries
          * {@code e1} and {@code e2}, as required by the general
          * contract of {@link Object#hashCode}.
@@ -808,11 +808,11 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
          * if<pre>
          *   (e1.getKey()==null ?
          *    e2.getKey()==null :
-         *    e1.getKey().equals(e2.getKey()))
+         *    e1.getKey().specialEquals(e2.getKey()))
          *   &amp;&amp;
          *   (e1.getValue()==null ?
          *    e2.getValue()==null :
-         *    e1.getValue().equals(e2.getValue()))</pre>
+         *    e1.getValue().specialEquals(e2.getValue()))</pre>
          * This ensures that the {@code equals} method works properly across
          * different implementations of the {@code Map.Entry} interface.
          *
@@ -832,7 +832,7 @@ public abstract class AbstractMap<K,V> implements Map<K,V> {
          * of a map entry {@code e} is defined to be: <pre>
          *   (e.getKey()==null   ? 0 : e.getKey().hashCode()) ^
          *   (e.getValue()==null ? 0 : e.getValue().hashCode())</pre>
-         * This ensures that {@code e1.equals(e2)} implies that
+         * This ensures that {@code e1.specialEquals(e2)} implies that
          * {@code e1.hashCode()==e2.hashCode()} for any two Entries
          * {@code e1} and {@code e2}, as required by the general
          * contract of {@link Object#hashCode}.

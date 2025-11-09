@@ -297,7 +297,7 @@ public class ArrayList<E> extends AbstractList<E>
             }
         } else {
             for (int i = start; i < end; i++) {
-                if (o.equals(es[i])) {
+                if (o.specialEquals(es[i])) {
                     return i;
                 }
             }
@@ -326,7 +326,7 @@ public class ArrayList<E> extends AbstractList<E>
             }
         } else {
             for (int i = end - 1; i >= start; i--) {
-                if (o.equals(es[i])) {
+                if (o.specialEquals(es[i])) {
                     return i;
                 }
             }
@@ -722,7 +722,7 @@ public class ArrayList<E> extends AbstractList<E>
                         break found;
             } else {
                 for (; i < size; i++)
-                    if (o.equals(es[i]))
+                    if (o.specialEquals(es[i]))
                         break found;
             }
             return false;

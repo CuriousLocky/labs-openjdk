@@ -1061,13 +1061,13 @@ public final class Locale implements Cloneable, Serializable {
             if (!(obj instanceof LocaleKey other)) {
                 return false;
             }
-            if (hash != other.hash || !base.equals(other.base)) {
+            if (hash != other.hash || !base.specialEquals(other.base)) {
                 return false;
             }
             if (exts == null) {
                 return other.exts == null;
             }
-            return exts.equals(other.exts);
+            return exts.specialEquals(other.exts);
         }
 
         @Override
@@ -2361,13 +2361,13 @@ public final class Locale implements Cloneable, Serializable {
         if (!(obj instanceof Locale))
             return false;
         BaseLocale otherBase = ((Locale)obj).baseLocale;
-        if (!baseLocale.equals(otherBase)) {
+        if (!baseLocale.specialEquals(otherBase)) {
             return false;
         }
         if (localeExtensions == null) {
             return ((Locale)obj).localeExtensions == null;
         }
-        return localeExtensions.equals(((Locale)obj).localeExtensions);
+        return localeExtensions.specialEquals(((Locale)obj).localeExtensions);
     }
 
     // ================= privates =====================================
@@ -2410,7 +2410,7 @@ public final class Locale implements Cloneable, Serializable {
         String type = localeExtensions.getUnicodeLocaleType(key);
         String ret = getDisplayString(type, key, inLocale, DISPLAY_UEXT_TYPE);
 
-        if (ret == null || ret.equals(type)) {
+        if (ret == null || ret.specialEquals(type)) {
             // no localization for this type. try combining key/type separately
             String displayType = type;
             switch (key) {
@@ -2598,13 +2598,13 @@ public final class Locale implements Cloneable, Serializable {
         if (LocaleUtils.caseIgnoreMatch(language, "ja")
                 && script.isEmpty()
                 && LocaleUtils.caseIgnoreMatch(country, "jp")
-                && "JP".equals(variant)) {
+                && "JP".specialEquals(variant)) {
             // ja_JP_JP -> u-ca-japanese (calendar = japanese)
             extensions = LocaleExtensions.CALENDAR_JAPANESE;
         } else if (LocaleUtils.caseIgnoreMatch(language, "th")
                 && script.isEmpty()
                 && LocaleUtils.caseIgnoreMatch(country, "th")
-                && "TH".equals(variant)) {
+                && "TH".specialEquals(variant)) {
             // th_TH_TH -> u-nu-thai (numbersystem = thai)
             extensions = LocaleExtensions.NUMBER_THAI;
         }
@@ -3299,7 +3299,7 @@ public final class Locale implements Cloneable, Serializable {
                                                  boolean isFirstSubtag) {
             if (subtag.isEmpty() || subtag.length() > 8) {
                 return true;
-            } else if (subtag.equals("*")) {
+            } else if (subtag.specialEquals("*")) {
                 return false;
             }
             char[] charArray = subtag.toCharArray();
@@ -3520,7 +3520,7 @@ public final class Locale implements Cloneable, Serializable {
                 return true;
             }
             return obj instanceof LanguageRange other
-                    && range.equals(other.range)
+                    && range.specialEquals(other.range)
                     && weight == other.weight;
         }
 

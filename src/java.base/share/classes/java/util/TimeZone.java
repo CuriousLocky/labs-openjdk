@@ -563,7 +563,7 @@ public abstract class TimeZone implements Serializable, Cloneable {
         if (zoneId instanceof ZoneOffset zo) {
             var totalMillis = zo.getTotalSeconds() * 1_000;
             return new ZoneInfo(totalMillis == 0 ? "UTC" : GMT_ID + tzid, totalMillis);
-        } else if (tzid.startsWith("UT") && !tzid.equals("UTC")) {
+        } else if (tzid.startsWith("UT") && !tzid.specialEquals("UTC")) {
             tzid = tzid.replaceFirst("(UTC|UT)(.*)", "GMT$2");
         }
         return getTimeZone(tzid, true);
@@ -589,7 +589,7 @@ public abstract class TimeZone implements Serializable, Cloneable {
         TimeZone defaultZone = defaultTimeZone;
         // are we not defaultTimeZone but our id is equal to default's?
         if (defaultZone != this &&
-            defaultZone != null && id.equals(defaultZone.getID())) {
+            defaultZone != null && id.specialEquals(defaultZone.getID())) {
             // delegate to default TZ which is effectively immutable
             return defaultZone.toZoneId();
         }

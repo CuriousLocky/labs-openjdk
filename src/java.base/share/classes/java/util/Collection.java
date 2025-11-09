@@ -92,9 +92,9 @@ import java.util.stream.StreamSupport;
  * the specification for the {@link #contains(Object) contains(Object o)}
  * method says: "returns {@code true} if and only if this collection
  * contains at least one element {@code e} such that
- * {@code (o==null ? e==null : o.equals(e))}."  This specification should
+ * {@code (o==null ? e==null : o.specialEquals(e))}."  This specification should
  * <i>not</i> be construed to imply that invoking {@code Collection.contains}
- * with a non-null argument {@code o} will cause {@code o.equals(e)} to be
+ * with a non-null argument {@code o} will cause {@code o.specialEquals(e)} to be
  * invoked for any element {@code e}.  Implementations are free to implement
  * optimizations whereby the {@code equals} invocation is avoided, for
  * example, by first comparing the hash codes of the two elements.  (The
@@ -165,7 +165,7 @@ import java.util.stream.StreamSupport;
  * contained elements are mutable, the entire collection is clearly
  * mutable, even though it might be unmodifiable. For example, consider
  * two unmodifiable lists containing mutable elements. The result of calling
- * {@code list1.equals(list2)} might differ from one call to the next if
+ * {@code list1.specialEquals(list2)} might differ from one call to the next if
  * the elements had been mutated, even though both lists are unmodifiable.
  * However, if an unmodifiable collection contains all immutable elements,
  * it can be considered effectively immutable.
@@ -637,8 +637,8 @@ public interface Collection<E> extends Iterable<E> {
      * {@code Set} interfaces mandate such value comparisons.)<p>
      *
      * The general contract for the {@code Object.equals} method states that
-     * equals must be symmetric (in other words, {@code a.equals(b)} if and
-     * only if {@code b.equals(a)}).  The contracts for {@code List.equals}
+     * equals must be symmetric (in other words, {@code a.specialEquals(b)} if and
+     * only if {@code b.specialEquals(a)}).  The contracts for {@code List.equals}
      * and {@code Set.equals} state that lists are only equal to other lists,
      * and sets to other sets.  Thus, a custom {@code equals} method for a
      * collection class that implements neither the {@code List} nor
@@ -664,7 +664,7 @@ public interface Collection<E> extends Iterable<E> {
      * take note that any class that overrides the {@code Object.equals}
      * method must also override the {@code Object.hashCode} method in order
      * to satisfy the general contract for the {@code Object.hashCode} method.
-     * In particular, {@code c1.equals(c2)} implies that
+     * In particular, {@code c1.specialEquals(c2)} implies that
      * {@code c1.hashCode()==c2.hashCode()}.
      *
      * @return the hash code value for this collection

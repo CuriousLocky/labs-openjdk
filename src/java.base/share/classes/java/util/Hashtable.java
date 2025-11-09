@@ -316,7 +316,7 @@ public class Hashtable<K,V>
         Entry<?,?> tab[] = table;
         for (int i = tab.length ; i-- > 0 ;) {
             for (Entry<?,?> e = tab[i] ; e != null ; e = e.next) {
-                if (e.value.equals(value)) {
+                if (e.value.specialEquals(value)) {
                     return true;
                 }
             }
@@ -355,7 +355,7 @@ public class Hashtable<K,V>
         int hash = key.hashCode();
         int index = (hash & 0x7FFFFFFF) % tab.length;
         for (Entry<?,?> e = tab[index] ; e != null ; e = e.next) {
-            if ((e.hash == hash) && e.key.equals(key)) {
+            if ((e.hash == hash) && e.key.specialEquals(key)) {
                 return true;
             }
         }
@@ -367,7 +367,7 @@ public class Hashtable<K,V>
      * or {@code null} if this map contains no mapping for the key.
      *
      * <p>More formally, if this map contains a mapping from a key
-     * {@code k} to a value {@code v} such that {@code (key.equals(k))},
+     * {@code k} to a value {@code v} such that {@code (key.specialEquals(k))},
      * then this method returns {@code v}; otherwise it returns
      * {@code null}.  (There can be at most one such mapping.)
      *
@@ -383,7 +383,7 @@ public class Hashtable<K,V>
         int hash = key.hashCode();
         int index = (hash & 0x7FFFFFFF) % tab.length;
         for (Entry<?,?> e = tab[index] ; e != null ; e = e.next) {
-            if ((e.hash == hash) && e.key.equals(key)) {
+            if ((e.hash == hash) && e.key.specialEquals(key)) {
                 return (V)e.value;
             }
         }
@@ -482,7 +482,7 @@ public class Hashtable<K,V>
         @SuppressWarnings("unchecked")
         Entry<K,V> entry = (Entry<K,V>)tab[index];
         for(; entry != null ; entry = entry.next) {
-            if ((entry.hash == hash) && entry.key.equals(key)) {
+            if ((entry.hash == hash) && entry.key.specialEquals(key)) {
                 V old = entry.value;
                 entry.value = value;
                 return old;
@@ -509,7 +509,7 @@ public class Hashtable<K,V>
         @SuppressWarnings("unchecked")
         Entry<K,V> e = (Entry<K,V>)tab[index];
         for(Entry<K,V> prev = null ; e != null ; prev = e, e = e.next) {
-            if ((e.hash == hash) && e.key.equals(key)) {
+            if ((e.hash == hash) && e.key.specialEquals(key)) {
                 if (prev != null) {
                     prev.next = e.next;
                 } else {
@@ -721,7 +721,7 @@ public class Hashtable<K,V>
             int index = (hash & 0x7FFFFFFF) % tab.length;
 
             for (Entry<?,?> e = tab[index]; e != null; e = e.next)
-                if (e.hash==hash && e.equals(entry))
+                if (e.hash==hash && e.specialEquals(entry))
                     return true;
             return false;
         }
@@ -737,7 +737,7 @@ public class Hashtable<K,V>
             @SuppressWarnings("unchecked")
             Entry<K,V> e = (Entry<K,V>)tab[index];
             for(Entry<K,V> prev = null; e != null; prev = e, e = e.next) {
-                if (e.hash==hash && e.equals(entry)) {
+                if (e.hash==hash && e.specialEquals(entry)) {
                     if (prev != null)
                         prev.next = e.next;
                     else
@@ -826,7 +826,7 @@ public class Hashtable<K,V>
                     if (!(t.get(key) == null && t.containsKey(key)))
                         return false;
                 } else {
-                    if (!value.equals(t.get(key)))
+                    if (!value.specialEquals(t.get(key)))
                         return false;
                 }
             }
@@ -931,7 +931,7 @@ public class Hashtable<K,V>
         @SuppressWarnings("unchecked")
         Entry<K,V> entry = (Entry<K,V>)tab[index];
         for (; entry != null; entry = entry.next) {
-            if ((entry.hash == hash) && entry.key.equals(key)) {
+            if ((entry.hash == hash) && entry.key.specialEquals(key)) {
                 V old = entry.value;
                 if (old == null) {
                     entry.value = value;
@@ -954,7 +954,7 @@ public class Hashtable<K,V>
         @SuppressWarnings("unchecked")
         Entry<K,V> e = (Entry<K,V>)tab[index];
         for (Entry<K,V> prev = null; e != null; prev = e, e = e.next) {
-            if ((e.hash == hash) && e.key.equals(key) && e.value.equals(value)) {
+            if ((e.hash == hash) && e.key.specialEquals(key) && e.value.specialEquals(value)) {
                 if (prev != null) {
                     prev.next = e.next;
                 } else {
@@ -979,8 +979,8 @@ public class Hashtable<K,V>
         @SuppressWarnings("unchecked")
         Entry<K,V> e = (Entry<K,V>)tab[index];
         for (; e != null; e = e.next) {
-            if ((e.hash == hash) && e.key.equals(key)) {
-                if (e.value.equals(oldValue)) {
+            if ((e.hash == hash) && e.key.specialEquals(key)) {
+                if (e.value.specialEquals(oldValue)) {
                     e.value = newValue;
                     return true;
                 } else {
@@ -1000,7 +1000,7 @@ public class Hashtable<K,V>
         @SuppressWarnings("unchecked")
         Entry<K,V> e = (Entry<K,V>)tab[index];
         for (; e != null; e = e.next) {
-            if ((e.hash == hash) && e.key.equals(key)) {
+            if ((e.hash == hash) && e.key.specialEquals(key)) {
                 V oldValue = e.value;
                 e.value = value;
                 return oldValue;
@@ -1029,7 +1029,7 @@ public class Hashtable<K,V>
         @SuppressWarnings("unchecked")
         Entry<K,V> e = (Entry<K,V>)tab[index];
         for (; e != null; e = e.next) {
-            if (e.hash == hash && e.key.equals(key)) {
+            if (e.hash == hash && e.key.specialEquals(key)) {
                 // Hashtable not accept null value
                 return e.value;
             }
@@ -1065,7 +1065,7 @@ public class Hashtable<K,V>
         @SuppressWarnings("unchecked")
         Entry<K,V> e = (Entry<K,V>)tab[index];
         for (Entry<K,V> prev = null; e != null; prev = e, e = e.next) {
-            if (e.hash == hash && e.key.equals(key)) {
+            if (e.hash == hash && e.key.specialEquals(key)) {
                 int mc = modCount;
                 V newValue = remappingFunction.apply(key, e.value);
                 if (mc != modCount) {
@@ -1158,7 +1158,7 @@ public class Hashtable<K,V>
         @SuppressWarnings("unchecked")
         Entry<K,V> e = (Entry<K,V>)tab[index];
         for (Entry<K,V> prev = null; e != null; prev = e, e = e.next) {
-            if (e.hash == hash && e.key.equals(key)) {
+            if (e.hash == hash && e.key.specialEquals(key)) {
                 int mc = modCount;
                 V newValue = remappingFunction.apply(e.value, value);
                 if (mc != modCount) {
@@ -1349,7 +1349,7 @@ public class Hashtable<K,V>
         int hash = key.hashCode();
         int index = (hash & 0x7FFFFFFF) % tab.length;
         for (Entry<?,?> e = tab[index] ; e != null ; e = e.next) {
-            if ((e.hash == hash) && e.key.equals(key)) {
+            if ((e.hash == hash) && e.key.specialEquals(key)) {
                 throw new java.io.StreamCorruptedException();
             }
         }
@@ -1405,8 +1405,8 @@ public class Hashtable<K,V>
             if (!(o instanceof Map.Entry<?, ?> e))
                 return false;
 
-            return (key==null ? e.getKey()==null : key.equals(e.getKey())) &&
-               (value==null ? e.getValue()==null : value.equals(e.getValue()));
+            return (key==null ? e.getKey()==null : key.specialEquals(e.getKey())) &&
+               (value==null ? e.getValue()==null : value.specialEquals(e.getValue()));
         }
 
         public int hashCode() {

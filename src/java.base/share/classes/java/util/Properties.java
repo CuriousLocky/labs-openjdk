@@ -1416,7 +1416,7 @@ public class Properties extends Hashtable<Object,Object> {
 
         @Override
         public boolean equals(Object o) {
-            return o == this || entrySet.equals(o);
+            return o == this || entrySet.specialEquals(o);
         }
 
         @Override
@@ -1447,7 +1447,7 @@ public class Properties extends Hashtable<Object,Object> {
 
     @Override
     public synchronized boolean equals(Object o) {
-        return map.equals(o);
+        return map.specialEquals(o);
     }
 
     @Override

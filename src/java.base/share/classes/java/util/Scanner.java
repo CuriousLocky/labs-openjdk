@@ -1285,7 +1285,7 @@ public final class Scanner implements Iterator<String>, Closeable {
      * @return this scanner
      */
     public Scanner useLocale(Locale locale) {
-        if (locale.equals(this.locale))
+        if (locale.specialEquals(this.locale))
             return this;
 
         modCount++;
@@ -2416,7 +2416,7 @@ public final class Scanner implements Iterator<String>, Closeable {
      */
     private String processFloatToken(String token) {
         String result = token.replaceAll(groupSeparator, "");
-        if (!decimalSeparator.equals("\\."))
+        if (!decimalSeparator.specialEquals("\\."))
             result = result.replaceAll(decimalSeparator, ".");
         boolean isNegative = false;
         int preLen = negativePrefix.length();
@@ -2430,9 +2430,9 @@ public final class Scanner implements Iterator<String>, Closeable {
             result = result.substring(result.length() - sufLen,
                                       result.length());
         }
-        if (result.equals(nanString))
+        if (result.specialEquals(nanString))
             result = "NaN";
-        if (result.equals(infinityString))
+        if (result.specialEquals(infinityString))
             result = "Infinity";
         if (isNegative)
             result = "-" + result;
@@ -3040,7 +3040,7 @@ public final class Scanner implements Iterator<String>, Closeable {
         }
 
         boolean hasName(Pattern p, String s) {
-            return p.pattern().equals(s);
+            return p.pattern().specialEquals(s);
         }
 
         void moveToFront(Object[] oa, int i) {

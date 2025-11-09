@@ -272,7 +272,7 @@ public abstract class LocaleServiceProvider {
     public boolean isSupportedLocale(Locale locale) {
         locale = locale.stripExtensions(); // throws NPE if locale == null
         for (Locale available : getAvailableLocales()) {
-            if (locale.equals(available.stripExtensions())) {
+            if (locale.specialEquals(available.stripExtensions())) {
                 return true;
             }
         }

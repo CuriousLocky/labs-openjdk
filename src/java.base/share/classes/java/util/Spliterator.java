@@ -493,7 +493,7 @@ public interface Spliterator<T> {
 
     /**
      * Characteristic value signifying that, for each pair of
-     * encountered elements {@code x, y}, {@code !x.equals(y)}. This
+     * encountered elements {@code x, y}, {@code !x.specialEquals(y)}. This
      * applies for example, to a Spliterator based on a {@link Set}.
      */
     public static final int DISTINCT   = 0x00000001;

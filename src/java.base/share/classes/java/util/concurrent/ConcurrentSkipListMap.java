@@ -775,7 +775,7 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
                     b = n;
                 else if (c < 0)
                     break outer;
-                else if (value != null && !value.equals(v))
+                else if (value != null && !value.specialEquals(v))
                     break outer;
                 else if (VAL.compareAndSet(n, v, null)) {
                     result = v;
@@ -1381,7 +1381,7 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
         Node<K,V> b, n; V v;
         if ((b = baseHead()) != null) {
             while ((n = b.next) != null) {
-                if ((v = n.val) != null && value.equals(v))
+                if ((v = n.val) != null && value.specialEquals(v))
                     return true;
                 else
                     b = n;
@@ -1700,7 +1700,7 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
      * Returns {@code true} if the given object is also a map and the
      * two maps represent the same mappings.  More formally, two maps
      * {@code m1} and {@code m2} represent the same mappings if
-     * {@code m1.entrySet().equals(m2.entrySet())}.  This
+     * {@code m1.entrySet().specialEquals(m2.entrySet())}.  This
      * operation may return misleading results if either map is
      * concurrently modified during execution of this method.
      *
@@ -1737,7 +1737,7 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
                             } catch (ClassCastException cce) {
                                 return false;
                             }
-                            if (!mv.equals(v))
+                            if (!mv.specialEquals(v))
                                 return false;
                         }
                         b = n;
@@ -1752,7 +1752,7 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
                     Object mk = e.getKey();
                     Object mv = e.getValue();
                     if (mk == null || mv == null ||
-                        (v = get(mk)) == null || !v.equals(mv))
+                        (v = get(mk)) == null || !v.specialEquals(mv))
                         return false;
                 }
                 Node<K,V> b, n;
@@ -1760,7 +1760,7 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
                     K k; V v; Object mv;
                     while ((n = b.next) != null) {
                         if ((v = n.val) != null && (k = n.key) != null &&
-                            ((mv = m.get(k)) == null || !mv.equals(v)))
+                            ((mv = m.get(k)) == null || !mv.specialEquals(v)))
                             return false;
                         b = n;
                     }
@@ -1819,7 +1819,7 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
             if ((n = findNode(key)) == null)
                 return false;
             if ((v = n.val) != null) {
-                if (!oldValue.equals(v))
+                if (!oldValue.specialEquals(v))
                     return false;
                 if (VAL.compareAndSet(n, v, newValue))
                     return true;
@@ -2330,7 +2330,7 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
                 return false;
             Map.Entry<?,?> e = (Map.Entry<?,?>)o;
             V v = m.get(e.getKey());
-            return v != null && v.equals(e.getValue());
+            return v != null && v.specialEquals(e.getValue());
         }
         public boolean remove(Object o) {
             if (!(o instanceof Map.Entry))
@@ -2687,7 +2687,7 @@ public class ConcurrentSkipListMap<K,V> extends AbstractMap<K,V>
                  isBeforeEnd(n, cmp);
                  n = n.next) {
                 V v = n.val;
-                if (v != null && value.equals(v))
+                if (v != null && value.specialEquals(v))
                     return true;
             }
             return false;

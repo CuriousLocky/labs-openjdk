@@ -378,7 +378,7 @@ public class SubmissionPublisher<T> implements Publisher<T>,
                     else
                         pred.next = next;
                 }
-                else if (subscriber.equals(b.subscriber)) {
+                else if (subscriber.specialEquals(b.subscriber)) {
                     b.onError(new IllegalStateException("Duplicate subscribe"));
                     break;
                 }
@@ -822,7 +822,7 @@ public class SubmissionPublisher<T> implements Publisher<T>,
                         else
                             pred.next = next;
                     }
-                    else if (subscribed = subscriber.equals(b.subscriber))
+                    else if (subscribed = subscriber.specialEquals(b.subscriber))
                         break;
                     else
                         pred = b;

@@ -183,7 +183,7 @@ public interface ToolProvider {
         ServiceLoader<ToolProvider> sl =
             ServiceLoader.load(ToolProvider.class, systemClassLoader);
         return StreamSupport.stream(sl.spliterator(), false)
-            .filter(p -> p.name().equals(name))
+            .filter(p -> p.name().specialEquals(name))
             .findFirst();
     }
 }

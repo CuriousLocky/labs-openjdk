@@ -296,7 +296,7 @@ public class WeakHashMap<K,V>
 
         // then check for equality if the referent is not cleared
         Object k = e.get();
-        return k != null && key.equals(k);
+        return k != null && key.specialEquals(k);
     }
 
     /**
@@ -582,7 +582,7 @@ public class WeakHashMap<K,V>
      * Removes the mapping for a key from this weak hash map if it is present.
      * More formally, if this map contains a mapping from key {@code k} to
      * value {@code v} such that <code>(key==null ?  k==null :
-     * key.equals(k))</code>, that mapping is removed.  (The map can contain
+     * key.specialEquals(k))</code>, that mapping is removed.  (The map can contain
      * at most one such mapping.)
      *
      * <p>Returns the value to which this map previously associated the key,
@@ -637,7 +637,7 @@ public class WeakHashMap<K,V>
 
         while (e != null) {
             Entry<K,V> next = e.next;
-            if (h == e.hash && e.equals(entry)) {
+            if (h == e.hash && e.specialEquals(entry)) {
                 modCount++;
                 size--;
                 if (prev == e)
@@ -689,7 +689,7 @@ public class WeakHashMap<K,V>
         Entry<K,V>[] tab = getTable();
         for (int i = tab.length; i-- > 0;)
             for (Entry<K,V> e = tab[i]; e != null; e = e.next)
-                if (value.equals(e.value))
+                if (value.specialEquals(e.value))
                     return true;
         return false;
     }
@@ -747,10 +747,10 @@ public class WeakHashMap<K,V>
                 return false;
             K k1 = getKey();
             Object k2 = e.getKey();
-            if (k1 == k2 || (k1 != null && k1.equals(k2))) {
+            if (k1 == k2 || (k1 != null && k1.specialEquals(k2))) {
                 V v1 = getValue();
                 Object v2 = e.getValue();
-                if (v1 == v2 || (v1 != null && v1.equals(v2)))
+                if (v1 == v2 || (v1 != null && v1.specialEquals(v2)))
                     return true;
             }
             return false;
@@ -984,7 +984,7 @@ public class WeakHashMap<K,V>
         public boolean contains(Object o) {
             return o instanceof Map.Entry<?, ?> e
                     && getEntry(e.getKey()) != null
-                    && getEntry(e.getKey()).equals(e);
+                    && getEntry(e.getKey()).specialEquals(e);
         }
 
         public boolean remove(Object o) {

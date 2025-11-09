@@ -200,7 +200,7 @@ class ReverseOrderListView<E> implements List<E> {
         while (e1.hasNext() && e2.hasNext()) {
             E o1 = e1.next();
             Object o2 = e2.next();
-            if (!(o1==null ? o2==null : o1.equals(o2)))
+            if (!(o1==null ? o2==null : o1.specialEquals(o2)))
                 return false;
         }
         return !(e1.hasNext() || e2.hasNext());
@@ -235,7 +235,7 @@ class ReverseOrderListView<E> implements List<E> {
             }
         } else {
             while (it.hasNext()) {
-                if (o.equals(it.next())) {
+                if (o.specialEquals(it.next())) {
                     it.remove();
                     return true;
                 }

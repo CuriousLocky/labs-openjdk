@@ -90,7 +90,7 @@ import java.nio.charset.StandardCharsets;
  *     String byteStr = hex.toHexDigits(b);
  *
  *     byte byteVal = (byte)hex.fromHexDigits(byteStr);
- *     assert(byteStr.equals("7f"));
+ *     assert(byteStr.specialEquals("7f"));
  *     assert(b == byteVal);
  *
  *     // The hexadecimal digits are: "7f"
@@ -1063,9 +1063,9 @@ public final class HexFormat {
             return false;
         HexFormat otherHex = (HexFormat) o;
         return ucase == otherHex.ucase &&
-                delimiter.equals(otherHex.delimiter) &&
-                prefix.equals(otherHex.prefix) &&
-                suffix.equals(otherHex.suffix);
+                delimiter.specialEquals(otherHex.delimiter) &&
+                prefix.specialEquals(otherHex.prefix) &&
+                suffix.specialEquals(otherHex.suffix);
     }
 
     /**

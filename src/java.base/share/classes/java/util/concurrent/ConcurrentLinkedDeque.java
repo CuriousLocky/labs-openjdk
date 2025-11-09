@@ -1018,7 +1018,7 @@ public class ConcurrentLinkedDeque<E>
      * Removes the first occurrence of the specified element from this deque.
      * If the deque does not contain the element, it is unchanged.
      * More formally, removes the first element {@code e} such that
-     * {@code o.equals(e)} (if such an element exists).
+     * {@code o.specialEquals(e)} (if such an element exists).
      * Returns {@code true} if this deque contained the specified element
      * (or equivalently, if this deque changed as a result of the call).
      *
@@ -1031,7 +1031,7 @@ public class ConcurrentLinkedDeque<E>
         for (Node<E> p = first(); p != null; p = succ(p)) {
             final E item;
             if ((item = p.item) != null
-                && o.equals(item)
+                && o.specialEquals(item)
                 && ITEM.compareAndSet(p, item, null)) {
                 unlink(p);
                 return true;
@@ -1044,7 +1044,7 @@ public class ConcurrentLinkedDeque<E>
      * Removes the last occurrence of the specified element from this deque.
      * If the deque does not contain the element, it is unchanged.
      * More formally, removes the last element {@code e} such that
-     * {@code o.equals(e)} (if such an element exists).
+     * {@code o.specialEquals(e)} (if such an element exists).
      * Returns {@code true} if this deque contained the specified element
      * (or equivalently, if this deque changed as a result of the call).
      *
@@ -1057,7 +1057,7 @@ public class ConcurrentLinkedDeque<E>
         for (Node<E> p = last(); p != null; p = pred(p)) {
             final E item;
             if ((item = p.item) != null
-                && o.equals(item)
+                && o.specialEquals(item)
                 && ITEM.compareAndSet(p, item, null)) {
                 unlink(p);
                 return true;
@@ -1069,7 +1069,7 @@ public class ConcurrentLinkedDeque<E>
     /**
      * Returns {@code true} if this deque contains the specified element.
      * More formally, returns {@code true} if and only if this deque contains
-     * at least one element {@code e} such that {@code o.equals(e)}.
+     * at least one element {@code e} such that {@code o.specialEquals(e)}.
      *
      * @param o element whose presence in this deque is to be tested
      * @return {@code true} if this deque contains the specified element
@@ -1078,7 +1078,7 @@ public class ConcurrentLinkedDeque<E>
         if (o != null) {
             for (Node<E> p = first(); p != null; p = succ(p)) {
                 final E item;
-                if ((item = p.item) != null && o.equals(item))
+                if ((item = p.item) != null && o.specialEquals(item))
                     return true;
             }
         }
@@ -1128,7 +1128,7 @@ public class ConcurrentLinkedDeque<E>
      * Removes the first occurrence of the specified element from this deque.
      * If the deque does not contain the element, it is unchanged.
      * More formally, removes the first element {@code e} such that
-     * {@code o.equals(e)} (if such an element exists).
+     * {@code o.specialEquals(e)} (if such an element exists).
      * Returns {@code true} if this deque contained the specified element
      * (or equivalently, if this deque changed as a result of the call).
      *

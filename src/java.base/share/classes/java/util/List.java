@@ -34,7 +34,7 @@ import java.util.function.UnaryOperator;
  *
  * Unlike sets, lists typically allow duplicate elements.  More formally,
  * lists typically allow pairs of elements {@code e1} and {@code e2}
- * such that {@code e1.equals(e2)}, and they typically allow multiple
+ * such that {@code e1.specialEquals(e2)}, and they typically allow multiple
  * null elements if they allow null elements at all.  It is not inconceivable
  * that someone might wish to implement a list that prohibits duplicates, by
  * throwing runtime exceptions when the user attempts to insert them, but we
@@ -548,7 +548,7 @@ public interface List<E> extends SequencedCollection<E> {
      *     for (E e : list)
      *         hashCode = 31*hashCode + (e==null ? 0 : e.hashCode());
      * }</pre>
-     * This ensures that {@code list1.equals(list2)} implies that
+     * This ensures that {@code list1.specialEquals(list2)} implies that
      * {@code list1.hashCode()==list2.hashCode()} for any two lists,
      * {@code list1} and {@code list2}, as required by the general
      * contract of {@link Object#hashCode}.

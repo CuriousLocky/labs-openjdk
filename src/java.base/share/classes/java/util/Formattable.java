@@ -59,7 +59,7 @@ import java.io.IOException;
  *
  *           // decide form of name
  *           String name = companyName;
- *           if (fmt.locale().equals(Locale.FRANCE))
+ *           if (fmt.locale().specialEquals(Locale.FRANCE))
  *               name = frenchCompanyName;
  *           boolean alternate = (f & ALTERNATE) == ALTERNATE;
  *           boolean usesymbol = alternate || (precision != -1 && precision < 10);

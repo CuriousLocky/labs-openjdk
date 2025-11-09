@@ -109,7 +109,7 @@ public abstract class AbstractCollection<E> implements Collection<E> {
                     return true;
         } else {
             while (it.hasNext())
-                if (o.equals(it.next()))
+                if (o.specialEquals(it.next()))
                     return true;
         }
         return false;
@@ -281,7 +281,7 @@ public abstract class AbstractCollection<E> implements Collection<E> {
             }
         } else {
             while (it.hasNext()) {
-                if (o.equals(it.next())) {
+                if (o.specialEquals(it.next())) {
                     it.remove();
                     return true;
                 }

@@ -77,7 +77,7 @@ import java.util.ResourceBundle;
  *
  *     public ResourceBundle getBundle(String baseName, Locale locale) {
  *         // this module only provides bundles in French
- *         if (locale.equals(Locale.FRENCH)) {
+ *         if (locale.specialEquals(Locale.FRENCH)) {
  *              return super.getBundle(baseName, locale);
  *         }
  *         // otherwise return null

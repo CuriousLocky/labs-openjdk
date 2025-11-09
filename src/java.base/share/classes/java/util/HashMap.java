@@ -549,7 +549,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
      *
      * <p>More formally, if this map contains a mapping from a key
      * {@code k} to a value {@code v} such that {@code (key==null ? k==null :
-     * key.equals(k))}, then this method returns {@code v}; otherwise
+     * key.specialEquals(k))}, then this method returns {@code v}; otherwise
      * it returns {@code null}.  (There can be at most one such mapping.)
      *
      * <p>A return value of {@code null} does not <i>necessarily</i>
@@ -576,14 +576,14 @@ public class HashMap<K,V> extends AbstractMap<K,V>
         if ((tab = table) != null && (n = tab.length) > 0 &&
             (first = tab[(n - 1) & (hash = hash(key))]) != null) {
             if (first.hash == hash && // always check first node
-                ((k = first.key) == key || (key != null && key.equals(k))))
+                ((k = first.key) == key || (key != null && key.specialEquals(k))))
                 return first;
             if ((e = first.next) != null) {
                 if (first instanceof TreeNode)
                     return ((TreeNode<K,V>)first).getTreeNode(hash, key);
                 do {
                     if (e.hash == hash &&
-                        ((k = e.key) == key || (key != null && key.equals(k))))
+                        ((k = e.key) == key || (key != null && key.specialEquals(k))))
                         return e;
                 } while ((e = e.next) != null);
             }
@@ -639,7 +639,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
         else {
             Node<K,V> e; K k;
             if (p.hash == hash &&
-                ((k = p.key) == key || (key != null && key.equals(k))))
+                ((k = p.key) == key || (key != null && key.specialEquals(k))))
                 e = p;
             else if (p instanceof TreeNode)
                 e = ((TreeNode<K,V>)p).putTreeVal(this, tab, hash, key, value);
@@ -652,7 +652,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
                         break;
                     }
                     if (e.hash == hash &&
-                        ((k = e.key) == key || (key != null && key.equals(k))))
+                        ((k = e.key) == key || (key != null && key.specialEquals(k))))
                         break;
                     p = e;
                 }
@@ -824,7 +824,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
             (p = tab[index = (n - 1) & hash]) != null) {
             Node<K,V> node = null, e; K k; V v;
             if (p.hash == hash &&
-                ((k = p.key) == key || (key != null && key.equals(k))))
+                ((k = p.key) == key || (key != null && key.specialEquals(k))))
                 node = p;
             else if ((e = p.next) != null) {
                 if (p instanceof TreeNode)
@@ -833,7 +833,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
                     do {
                         if (e.hash == hash &&
                             ((k = e.key) == key ||
-                             (key != null && key.equals(k)))) {
+                             (key != null && key.specialEquals(k)))) {
                             node = e;
                             break;
                         }
@@ -842,7 +842,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
                 }
             }
             if (node != null && (!matchValue || (v = node.value) == value ||
-                                 (value != null && value.equals(v)))) {
+                                 (value != null && value.specialEquals(v)))) {
                 if (node instanceof TreeNode)
                     ((TreeNode<K,V>)node).removeTreeNode(this, tab, movable);
                 else if (node == p)
@@ -886,7 +886,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
             for (Node<K,V> e : tab) {
                 for (; e != null; e = e.next) {
                     if ((v = e.value) == value ||
-                        (value != null && value.equals(v)))
+                        (value != null && value.specialEquals(v)))
                         return true;
                 }
             }
@@ -1111,7 +1111,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
                 return false;
             Object key = e.getKey();
             Node<K,V> candidate = getNode(key);
-            return candidate != null && candidate.equals(e);
+            return candidate != null && candidate.specialEquals(e);
         }
         public final boolean remove(Object o) {
             if (o instanceof Map.Entry<?, ?> e) {
@@ -1162,7 +1162,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
     public boolean replace(K key, V oldValue, V newValue) {
         Node<K,V> e; V v;
         if ((e = getNode(key)) != null &&
-            ((v = e.value) == oldValue || (v != null && v.equals(oldValue)))) {
+            ((v = e.value) == oldValue || (v != null && v.specialEquals(oldValue)))) {
             e.value = newValue;
             afterNodeAccess(e);
             return true;
@@ -1212,7 +1212,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
                 Node<K,V> e = first; K k;
                 do {
                     if (e.hash == hash &&
-                        ((k = e.key) == key || (key != null && key.equals(k)))) {
+                        ((k = e.key) == key || (key != null && key.specialEquals(k)))) {
                         old = e;
                         break;
                     }
@@ -1312,7 +1312,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
                 Node<K,V> e = first; K k;
                 do {
                     if (e.hash == hash &&
-                        ((k = e.key) == key || (key != null && key.equals(k)))) {
+                        ((k = e.key) == key || (key != null && key.specialEquals(k)))) {
                         old = e;
                         break;
                     }
@@ -1377,7 +1377,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
                 Node<K,V> e = first; K k;
                 do {
                     if (e.hash == hash &&
-                        ((k = e.key) == key || (key != null && key.equals(k)))) {
+                        ((k = e.key) == key || (key != null && key.specialEquals(k)))) {
                         old = e;
                         break;
                     }
@@ -2024,7 +2024,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
                     p = pl;
                 else if (ph < h)
                     p = pr;
-                else if ((pk = p.key) == k || (k != null && k.equals(pk)))
+                else if ((pk = p.key) == k || (k != null && k.specialEquals(pk)))
                     return p;
                 else if (pl == null)
                     p = pr;
@@ -2142,7 +2142,7 @@ public class HashMap<K,V> extends AbstractMap<K,V>
                     dir = -1;
                 else if (ph < h)
                     dir = 1;
-                else if ((pk = p.key) == k || (k != null && k.equals(pk)))
+                else if ((pk = p.key) == k || (k != null && k.specialEquals(pk)))
                     return p;
                 else if ((kc == null &&
                           (kc = comparableClassFor(k)) == null) ||

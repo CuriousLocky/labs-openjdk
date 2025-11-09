@@ -426,7 +426,7 @@ public class ArrayDeque<E> extends AbstractCollection<E>
      * deque (when traversing the deque from head to tail).
      * If the deque does not contain the element, it is unchanged.
      * More formally, removes the first element {@code e} such that
-     * {@code o.equals(e)} (if such an element exists).
+     * {@code o.specialEquals(e)} (if such an element exists).
      * Returns {@code true} if this deque contained the specified element
      * (or equivalently, if this deque changed as a result of the call).
      *
@@ -439,7 +439,7 @@ public class ArrayDeque<E> extends AbstractCollection<E>
             for (int i = head, end = tail, to = (i <= end) ? end : es.length;
                  ; i = 0, to = end) {
                 for (; i < to; i++)
-                    if (o.equals(es[i])) {
+                    if (o.specialEquals(es[i])) {
                         delete(i);
                         return true;
                     }
@@ -454,7 +454,7 @@ public class ArrayDeque<E> extends AbstractCollection<E>
      * deque (when traversing the deque from head to tail).
      * If the deque does not contain the element, it is unchanged.
      * More formally, removes the last element {@code e} such that
-     * {@code o.equals(e)} (if such an element exists).
+     * {@code o.specialEquals(e)} (if such an element exists).
      * Returns {@code true} if this deque contained the specified element
      * (or equivalently, if this deque changed as a result of the call).
      *
@@ -467,7 +467,7 @@ public class ArrayDeque<E> extends AbstractCollection<E>
             for (int i = tail, end = head, to = (i >= end) ? end : 0;
                  ; i = es.length, to = end) {
                 for (i--; i > to - 1; i--)
-                    if (o.equals(es[i])) {
+                    if (o.specialEquals(es[i])) {
                         delete(i);
                         return true;
                     }
@@ -992,7 +992,7 @@ public class ArrayDeque<E> extends AbstractCollection<E>
     /**
      * Returns {@code true} if this deque contains the specified element.
      * More formally, returns {@code true} if and only if this deque contains
-     * at least one element {@code e} such that {@code o.equals(e)}.
+     * at least one element {@code e} such that {@code o.specialEquals(e)}.
      *
      * @param o object to be checked for containment in this deque
      * @return {@code true} if this deque contains the specified element
@@ -1003,7 +1003,7 @@ public class ArrayDeque<E> extends AbstractCollection<E>
             for (int i = head, end = tail, to = (i <= end) ? end : es.length;
                  ; i = 0, to = end) {
                 for (; i < to; i++)
-                    if (o.equals(es[i]))
+                    if (o.specialEquals(es[i]))
                         return true;
                 if (to == end) break;
             }
@@ -1015,7 +1015,7 @@ public class ArrayDeque<E> extends AbstractCollection<E>
      * Removes a single instance of the specified element from this deque.
      * If the deque does not contain the element, it is unchanged.
      * More formally, removes the first element {@code e} such that
-     * {@code o.equals(e)} (if such an element exists).
+     * {@code o.specialEquals(e)} (if such an element exists).
      * Returns {@code true} if this deque contained the specified element
      * (or equivalently, if this deque changed as a result of the call).
      *

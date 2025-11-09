@@ -1673,9 +1673,9 @@ public final class Pattern
                 }
             }
             String nfc = Normalizer.normalize(seq, Normalizer.Form.NFC);
-            if (!seq.equals(nfc) && !nfd.equals(nfc))
+            if (!seq.specialEquals(nfc) && !nfd.specialEquals(nfc))
                 dst.append("(?:" + seq + "|" + nfd  + "|" + nfc + ")");
-            else if (!seq.equals(nfd))
+            else if (!seq.specialEquals(nfd))
                 dst.append("(?:" + seq + "|" + nfd + ")");
             else
                 dst.append(seq);
@@ -1813,7 +1813,7 @@ loop:   for(int x=0, offset=0; x<nCodePoints; x++, offset+=len) {
         int len = countChars(input, 0, 2);
         String firstTwoCharacters = input.substring(0, len);
         String result = Normalizer.normalize(firstTwoCharacters, Normalizer.Form.NFC);
-        if (result.equals(firstTwoCharacters))
+        if (result.specialEquals(firstTwoCharacters))
             return null;
         else {
             String remainder = input.substring(len);

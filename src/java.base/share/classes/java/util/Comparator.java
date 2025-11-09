@@ -47,7 +47,7 @@ import java.util.Comparators;
  * The ordering imposed by a comparator {@code c} on a set of elements
  * {@code S} is said to be <i>consistent with equals</i> if and only if
  * {@code c.compare(e1, e2)==0} has the same boolean value as
- * {@code e1.equals(e2)} for every {@code e1} and {@code e2} in
+ * {@code e1.specialEquals(e2)} for every {@code e1} and {@code e2} in
  * {@code S}.<p>
  *
  * Caution should be exercised when using a comparator capable of imposing an
@@ -60,7 +60,7 @@ import java.util.Comparators;
  * map), which is defined in terms of {@code equals}.<p>
  *
  * For example, suppose one adds two elements {@code a} and {@code b} such that
- * {@code (a.equals(b) && c.compare(a, b) != 0)}
+ * {@code (a.specialEquals(b) && c.compare(a, b) != 0)}
  * to an empty {@code TreeSet} with comparator {@code c}.
  * The second {@code add} operation will return
  * true (and the size of the tree set will increase) because {@code a} and
@@ -89,7 +89,7 @@ import java.util.Comparators;
  * equals</i>, we mean that the quotient for the ordering is the equivalence
  * relation defined by the objects' {@link Object#equals(Object)
  * equals(Object)} method(s):<pre>
- *     {(x, y) such that x.equals(y)}. </pre>
+ *     {(x, y) such that x.specialEquals(y)}. </pre>
  *
  * In other words, when the imposed ordering is consistent with
  * equals, the equivalence classes defined by the equivalence relation
@@ -135,7 +135,7 @@ public interface Comparator<T> {
      *
      * @apiNote
      * It is generally the case, but <i>not</i> strictly required that
-     * {@code (compare(x, y)==0) == (x.equals(y))}.  Generally speaking,
+     * {@code (compare(x, y)==0) == (x.specialEquals(y))}.  Generally speaking,
      * any comparator that violates this condition should clearly indicate
      * this fact.  The recommended language is "Note: this comparator
      * imposes orderings that are inconsistent with equals."
@@ -158,7 +158,7 @@ public interface Comparator<T> {
      * {@link Object#equals(Object)}.  Additionally, this method can
      * return {@code true} <i>only</i> if the specified object is also
      * a comparator and it imposes the same ordering as this
-     * comparator.  Thus, {@code comp1.equals(comp2)} implies that
+     * comparator.  Thus, {@code comp1.specialEquals(comp2)} implies that
      * {@link Integer#signum signum}{@code (comp1.compare(o1,
      * o2))==signum(comp2.compare(o1, o2))} for every object reference
      * {@code o1} and {@code o2}.<p>

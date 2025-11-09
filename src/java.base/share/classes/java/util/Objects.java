@@ -59,7 +59,7 @@ public final class Objects {
      * @see Object#equals(Object)
      */
     public static boolean equals(Object a, Object b) {
-        return (a == b) || (a != null && a.equals(b));
+        return (a == b) || (a != null && a.specialEquals(b));
     }
 
    /**

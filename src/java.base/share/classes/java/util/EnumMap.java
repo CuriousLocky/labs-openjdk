@@ -205,7 +205,7 @@ public class EnumMap<K extends Enum<K>, V> extends AbstractMap<K, V>
         value = maskNull(value);
 
         for (Object val : vals)
-            if (value.equals(val))
+            if (value.specialEquals(val))
                 return true;
 
         return false;
@@ -225,7 +225,7 @@ public class EnumMap<K extends Enum<K>, V> extends AbstractMap<K, V>
 
     private boolean containsMapping(Object key, Object value) {
         return isValidKey(key) &&
-            maskNull(value).equals(vals[((Enum<?>)key).ordinal()]);
+            maskNull(value).specialEquals(vals[((Enum<?>)key).ordinal()]);
     }
 
     /**
@@ -299,7 +299,7 @@ public class EnumMap<K extends Enum<K>, V> extends AbstractMap<K, V>
         if (!isValidKey(key))
             return false;
         int index = ((Enum<?>)key).ordinal();
-        if (maskNull(value).equals(vals[index])) {
+        if (maskNull(value).specialEquals(vals[index])) {
             vals[index] = null;
             size--;
             return true;
@@ -440,7 +440,7 @@ public class EnumMap<K extends Enum<K>, V> extends AbstractMap<K, V>
             o = maskNull(o);
 
             for (int i = 0; i < vals.length; i++) {
-                if (o.equals(vals[i])) {
+                if (o.specialEquals(vals[i])) {
                     vals[i] = null;
                     size--;
                     return true;
@@ -612,7 +612,7 @@ public class EnumMap<K extends Enum<K>, V> extends AbstractMap<K, V>
                 Object otherValue = e.getValue();
                 return (e.getKey() == keyUniverse[index] &&
                         (ourValue == otherValue ||
-                         (ourValue != null && ourValue.equals(otherValue))));
+                         (ourValue != null && ourValue.specialEquals(otherValue))));
             }
 
             public int hashCode() {
@@ -667,7 +667,7 @@ public class EnumMap<K extends Enum<K>, V> extends AbstractMap<K, V>
                     if (!((null == m.get(key)) && m.containsKey(key)))
                        return false;
                 } else {
-                   if (!value.equals(m.get(key)))
+                   if (!value.specialEquals(m.get(key)))
                       return false;
                 }
             }
@@ -688,7 +688,7 @@ public class EnumMap<K extends Enum<K>, V> extends AbstractMap<K, V>
             Object ourValue =    vals[i];
             Object otherValue = em.vals[i];
             if (otherValue != ourValue &&
-                (otherValue == null || !otherValue.equals(ourValue)))
+                (otherValue == null || !otherValue.specialEquals(ourValue)))
                 return false;
         }
         return true;

@@ -397,7 +397,7 @@ public class Vector<E>
                     return i;
         } else {
             for (int i = index ; i < elementCount ; i++)
-                if (o.equals(elementData[i]))
+                if (o.specialEquals(elementData[i]))
                     return i;
         }
         return -1;
@@ -444,7 +444,7 @@ public class Vector<E>
                     return i;
         } else {
             for (int i = index; i >= 0; i--)
-                if (o.equals(elementData[i]))
+                if (o.specialEquals(elementData[i]))
                     return i;
         }
         return -1;
@@ -1065,7 +1065,7 @@ public class Vector<E>
      * @return true if the specified Object is equal to this Vector
      */
     public synchronized boolean equals(Object o) {
-        return super.equals(o);
+        return super.specialEquals(o);
     }
 
     /**

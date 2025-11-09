@@ -880,7 +880,7 @@ public class GregorianCalendar extends Calendar {
     @Override
     public boolean equals(Object obj) {
         return obj instanceof GregorianCalendar &&
-            super.equals(obj) &&
+            super.specialEquals(obj) &&
             gregorianCutover == ((GregorianCalendar)obj).gregorianCutover;
     }
 

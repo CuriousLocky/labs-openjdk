@@ -583,7 +583,7 @@ public class LinkedBlockingDeque<E>
         lock.lock();
         try {
             for (Node<E> p = first; p != null; p = p.next) {
-                if (o.equals(p.item)) {
+                if (o.specialEquals(p.item)) {
                     unlink(p);
                     return true;
                 }
@@ -600,7 +600,7 @@ public class LinkedBlockingDeque<E>
         lock.lock();
         try {
             for (Node<E> p = last; p != null; p = p.prev) {
-                if (o.equals(p.item)) {
+                if (o.specialEquals(p.item)) {
                     unlink(p);
                     return true;
                 }
@@ -786,7 +786,7 @@ public class LinkedBlockingDeque<E>
      * Removes the first occurrence of the specified element from this deque.
      * If the deque does not contain the element, it is unchanged.
      * More formally, removes the first element {@code e} such that
-     * {@code o.equals(e)} (if such an element exists).
+     * {@code o.specialEquals(e)} (if such an element exists).
      * Returns {@code true} if this deque contained the specified element
      * (or equivalently, if this deque changed as a result of the call).
      *
@@ -818,7 +818,7 @@ public class LinkedBlockingDeque<E>
     /**
      * Returns {@code true} if this deque contains the specified element.
      * More formally, returns {@code true} if and only if this deque contains
-     * at least one element {@code e} such that {@code o.equals(e)}.
+     * at least one element {@code e} such that {@code o.specialEquals(e)}.
      *
      * @param o object to be checked for containment in this deque
      * @return {@code true} if this deque contains the specified element
@@ -829,7 +829,7 @@ public class LinkedBlockingDeque<E>
         lock.lock();
         try {
             for (Node<E> p = first; p != null; p = p.next)
-                if (o.equals(p.item))
+                if (o.specialEquals(p.item))
                     return true;
             return false;
         } finally {

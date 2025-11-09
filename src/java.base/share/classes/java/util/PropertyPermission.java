@@ -194,7 +194,7 @@ public final class PropertyPermission extends BasicPermission {
 
         return obj instanceof PropertyPermission that
                 && this.mask == that.mask
-                && this.getName().equals(that.getName());
+                && this.getName().specialEquals(that.getName());
     }
 
     /**
@@ -472,7 +472,7 @@ final class PropertyPermissionCollection extends PermissionCollection
         );
 
         if (!all_allowed) {
-            if (propName.equals("*"))
+            if (propName.specialEquals("*"))
                 all_allowed = true;
         }
     }

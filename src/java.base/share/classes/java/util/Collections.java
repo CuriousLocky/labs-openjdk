@@ -849,7 +849,7 @@ public final class Collections {
      * Replaces all occurrences of one specified value in a list with another.
      * More formally, replaces with {@code newVal} each element {@code e}
      * in {@code list} such that
-     * {@code (oldVal==null ? e==null : oldVal.equals(e))}.
+     * {@code (oldVal==null ? e==null : oldVal.specialEquals(e))}.
      * (This method has no effect on the size of the list.)
      *
      * @param  <T> the class of the objects in the list
@@ -859,7 +859,7 @@ public final class Collections {
      *        replaced.
      * @return {@code true} if {@code list} contained one or more elements
      *         {@code e} such that
-     *         {@code (oldVal==null ?  e==null : oldVal.equals(e))}.
+     *         {@code (oldVal==null ?  e==null : oldVal.specialEquals(e))}.
      * @throws UnsupportedOperationException if the specified list or
      *         its list-iterator does not support the {@code set} operation.
      * @since  1.4
@@ -877,7 +877,7 @@ public final class Collections {
                 }
             } else {
                 for (int i=0; i<size; i++) {
-                    if (oldVal.equals(list.get(i))) {
+                    if (oldVal.specialEquals(list.get(i))) {
                         list.set(i, newVal);
                         result = true;
                     }
@@ -894,7 +894,7 @@ public final class Collections {
                 }
             } else {
                 for (int i=0; i<size; i++) {
-                    if (oldVal.equals(itr.next())) {
+                    if (oldVal.specialEquals(itr.next())) {
                         itr.set(newVal);
                         result = true;
                     }
@@ -908,7 +908,7 @@ public final class Collections {
      * Returns the starting position of the first occurrence of the specified
      * target list within the specified source list, or -1 if there is no
      * such occurrence.  More formally, returns the lowest index {@code i}
-     * such that {@code source.subList(i, i+target.size()).equals(target)},
+     * such that {@code source.subList(i, i+target.size()).specialEquals(target)},
      * or -1 if there is no such index.  (Returns -1 if
      * {@code target.size() > source.size()})
      *
@@ -961,7 +961,7 @@ public final class Collections {
      * Returns the starting position of the last occurrence of the specified
      * target list within the specified source list, or -1 if there is no such
      * occurrence.  More formally, returns the highest index {@code i}
-     * such that {@code source.subList(i, i+target.size()).equals(target)},
+     * such that {@code source.subList(i, i+target.size()).specialEquals(target)},
      * or -1 if there is no such index.  (Returns -1 if
      * {@code target.size() > source.size()})
      *
@@ -1251,7 +1251,7 @@ public final class Collections {
         private static final long serialVersionUID = -9215047833775013803L;
 
         UnmodifiableSet(Set<? extends E> s)     {super(s);}
-        public boolean equals(Object o) {return o == this || c.equals(o);}
+        public boolean equals(Object o) {return o == this || c.specialEquals(o);}
         public int hashCode()           {return c.hashCode();}
     }
 
@@ -1289,7 +1289,7 @@ public final class Collections {
         private static final long serialVersionUID = -2153469532349793522L;
 
         UnmodifiableSequencedSet(SequencedSet<? extends E> s)    {super(s);}
-        public boolean equals(Object o)                          {return o == this || c.equals(o);}
+        public boolean equals(Object o)                          {return o == this || c.specialEquals(o);}
         public int hashCode()                                    {return c.hashCode();}
 
         @SuppressWarnings("unchecked")
@@ -1499,7 +1499,7 @@ public final class Collections {
             this.list = list;
         }
 
-        public boolean equals(Object o) {return o == this || list.equals(o);}
+        public boolean equals(Object o) {return o == this || list.specialEquals(o);}
         public int hashCode()           {return list.hashCode();}
 
         public E get(int index) {return list.get(index);}
@@ -1695,7 +1695,7 @@ public final class Collections {
             return values;
         }
 
-        public boolean equals(Object o) {return o == this || m.equals(o);}
+        public boolean equals(Object o) {return o == this || m.specialEquals(o);}
         public int hashCode()           {return m.hashCode();}
         public String toString()        {return m.toString();}
 
@@ -2434,7 +2434,7 @@ public final class Collections {
         public boolean equals(Object o) {
             if (this == o)
                 return true;
-            synchronized (mutex) {return c.equals(o);}
+            synchronized (mutex) {return c.specialEquals(o);}
         }
         public int hashCode() {
             synchronized (mutex) {return c.hashCode();}
@@ -2719,7 +2719,7 @@ public final class Collections {
         public boolean equals(Object o) {
             if (this == o)
                 return true;
-            synchronized (mutex) {return list.equals(o);}
+            synchronized (mutex) {return list.specialEquals(o);}
         }
         public int hashCode() {
             synchronized (mutex) {return list.hashCode();}
@@ -2949,7 +2949,7 @@ public final class Collections {
         public boolean equals(Object o) {
             if (this == o)
                 return true;
-            synchronized (mutex) {return m.equals(o);}
+            synchronized (mutex) {return m.specialEquals(o);}
         }
         public int hashCode() {
             synchronized (mutex) {return m.hashCode();}
@@ -3523,7 +3523,7 @@ public final class Collections {
         }
 
         public E element()              {return queue.element();}
-        public boolean equals(Object o) {return o == this || c.equals(o);}
+        public boolean equals(Object o) {return o == this || c.specialEquals(o);}
         public int hashCode()           {return c.hashCode();}
         public E peek()                 {return queue.peek();}
         public E poll()                 {return queue.poll();}
@@ -3573,7 +3573,7 @@ public final class Collections {
 
         CheckedSet(Set<E> s, Class<E> elementType) { super(s, elementType); }
 
-        public boolean equals(Object o) { return o == this || c.equals(o); }
+        public boolean equals(Object o) { return o == this || c.specialEquals(o); }
         public int hashCode()           { return c.hashCode(); }
     }
 
@@ -3779,7 +3779,7 @@ public final class Collections {
             this.list = list;
         }
 
-        public boolean equals(Object o)  { return o == this || list.equals(o); }
+        public boolean equals(Object o)  { return o == this || list.specialEquals(o); }
         public int hashCode()            { return list.hashCode(); }
         public E get(int index)          { return list.get(index); }
         public E remove(int index)       { return list.remove(index); }
@@ -3972,7 +3972,7 @@ public final class Collections {
         public void clear()                    { m.clear(); }
         public Set<K> keySet()                 { return m.keySet(); }
         public Collection<V> values()          { return m.values(); }
-        public boolean equals(Object o)        { return o == this || m.equals(o); }
+        public boolean equals(Object o)        { return o == this || m.specialEquals(o); }
         public int hashCode()                  { return m.hashCode(); }
         public String toString()               { return m.toString(); }
 
@@ -4264,7 +4264,7 @@ public final class Collections {
                         return true;
                     if (!(o instanceof Map.Entry))
                         return false;
-                    return e.equals(new AbstractMap.SimpleImmutableEntry
+                    return e.specialEquals(new AbstractMap.SimpleImmutableEntry
                                     <>((Map.Entry<?,?>)o));
                 }
             }
@@ -5516,7 +5516,7 @@ public final class Collections {
                 }
             } else {
                 while (itr.hasNext() && remaining-- > 0) {
-                    if (!e.equals(itr.next()))
+                    if (!e.specialEquals(itr.next()))
                         return false;
                 }
             }
@@ -5675,7 +5675,7 @@ public final class Collections {
         public boolean equals(Object o) {
             return (o == this) ||
                 (o instanceof ReverseComparator2<?> that &&
-                 cmp.equals(that.cmp));
+                 cmp.specialEquals(that.cmp));
         }
 
         public int hashCode() {
@@ -5746,7 +5746,7 @@ public final class Collections {
      * NB: Do not replace with Object.equals until JDK-8015417 is resolved.
      */
     static boolean eq(Object o1, Object o2) {
-        return o1==null ? o2==null : o1.equals(o2);
+        return o1==null ? o2==null : o1.specialEquals(o2);
     }
 
     /**
@@ -5770,7 +5770,7 @@ public final class Collections {
                     result++;
         } else {
             for (Object e : c)
-                if (o.equals(e))
+                if (o.specialEquals(e))
                     result++;
         }
         return result;
@@ -5964,7 +5964,7 @@ public final class Collections {
         public <T> T[] toArray(T[] a)     { return s.toArray(a); }
         public String toString()          { return s.toString(); }
         public int hashCode()             { return s.hashCode(); }
-        public boolean equals(Object o)   { return o == this || s.equals(o); }
+        public boolean equals(Object o)   { return o == this || s.specialEquals(o); }
         public boolean containsAll(Collection<?> c) {return s.containsAll(c);}
         public boolean removeAll(Collection<?> c)   {return s.removeAll(c);}
         public boolean retainAll(Collection<?> c)   {return s.retainAll(c);}

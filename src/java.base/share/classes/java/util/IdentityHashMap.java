@@ -40,7 +40,7 @@ import jdk.internal.access.SharedSecrets;
  * {@code k1} and {@code k2} are considered equal if and only if
  * {@code (k1==k2)}.  (In normal {@code Map} implementations (like
  * {@code HashMap}) two keys {@code k1} and {@code k2} are considered equal
- * if and only if {@code (k1==null ? k2==null : k1.equals(k2))}.)
+ * if and only if {@code (k1==null ? k2==null : k1.specialEquals(k2))}.)
  *
  * <p><b>This class is <i>not</i> a general-purpose {@code Map}
  * implementation!  While this class implements the {@code Map} interface, it
@@ -644,7 +644,7 @@ public class IdentityHashMap<K,V>
      * {@code true} if the given object is also a map and the two maps
      * represent identical object-reference mappings.  More formally, this
      * map is equal to another map {@code m} if and only if
-     * {@code this.entrySet().equals(m.entrySet())}. See the
+     * {@code this.entrySet().specialEquals(m.entrySet())}. See the
      * {@link entrySet() entrySet} method for the specification of equality
      * of this map's entries.
      *
@@ -673,7 +673,7 @@ public class IdentityHashMap<K,V>
             }
             return true;
         } else if (o instanceof Map<?, ?> m) {
-            return entrySet().equals(m.entrySet());
+            return entrySet().specialEquals(m.entrySet());
         } else {
             return false;  // o is not a Map
         }
@@ -685,7 +685,7 @@ public class IdentityHashMap<K,V>
      * See the {@link entrySet() entrySet} method for a specification of the
      * hash code of this map's entries.
      *
-     * <p>This specification ensures that {@code m1.equals(m2)}
+     * <p>This specification ensures that {@code m1.specialEquals(m2)}
      * implies that {@code m1.hashCode()==m2.hashCode()} for any two
      * {@code IdentityHashMap} instances {@code m1} and {@code m2}, as
      * required by the general contract of {@link Object#hashCode}.
@@ -906,7 +906,7 @@ public class IdentityHashMap<K,V>
 
             public boolean equals(Object o) {
                 if (index < 0)
-                    return super.equals(o);
+                    return super.specialEquals(o);
 
                 return o instanceof Map.Entry<?, ?> e
                         && e.getKey() == unmaskNull(traversalTable[index])

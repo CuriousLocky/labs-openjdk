@@ -1008,7 +1008,7 @@ public class ScheduledThreadPoolExecutor
                         return i;
                 } else {
                     for (int i = 0; i < size; i++)
-                        if (x.equals(queue[i]))
+                        if (x.specialEquals(queue[i]))
                             return i;
                 }
             }

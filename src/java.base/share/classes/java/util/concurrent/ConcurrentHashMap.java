@@ -665,8 +665,8 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
             return ((o instanceof Map.Entry) &&
                     (k = (e = (Map.Entry<?,?>)o).getKey()) != null &&
                     (v = e.getValue()) != null &&
-                    (k == key || k.equals(key)) &&
-                    (v == (u = val) || v.equals(u)));
+                    (k == key || k.specialEquals(key)) &&
+                    (v == (u = val) || v.specialEquals(u)));
         }
 
         /**
@@ -678,7 +678,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                 do {
                     K ek;
                     if (e.hash == h &&
-                        ((ek = e.key) == k || (ek != null && k.equals(ek))))
+                        ((ek = e.key) == k || (ek != null && k.specialEquals(ek))))
                         return e;
                 } while ((e = e.next) != null);
             }
@@ -937,7 +937,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
      * or {@code null} if this map contains no mapping for the key.
      *
      * <p>More formally, if this map contains a mapping from a key
-     * {@code k} to a value {@code v} such that {@code key.equals(k)},
+     * {@code k} to a value {@code v} such that {@code key.specialEquals(k)},
      * then this method returns {@code v}; otherwise it returns
      * {@code null}.  (There can be at most one such mapping.)
      *
@@ -949,14 +949,14 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         if ((tab = table) != null && (n = tab.length) > 0 &&
             (e = tabAt(tab, (n - 1) & h)) != null) {
             if ((eh = e.hash) == h) {
-                if ((ek = e.key) == key || (ek != null && key.equals(ek)))
+                if ((ek = e.key) == key || (ek != null && key.specialEquals(ek)))
                     return e.val;
             }
             else if (eh < 0)
                 return (p = e.find(h, key)) != null ? p.val : null;
             while ((e = e.next) != null) {
                 if (e.hash == h &&
-                    ((ek = e.key) == key || (ek != null && key.equals(ek))))
+                    ((ek = e.key) == key || (ek != null && key.specialEquals(ek))))
                     return e.val;
             }
         }
@@ -994,7 +994,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
             Traverser<K,V> it = new Traverser<K,V>(t, t.length, 0, t.length);
             for (Node<K,V> p; (p = it.advance()) != null; ) {
                 V v;
-                if ((v = p.val) == value || (v != null && value.equals(v)))
+                if ((v = p.val) == value || (v != null && value.specialEquals(v)))
                     return true;
             }
         }
@@ -1035,7 +1035,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                 tab = helpTransfer(tab, f);
             else if (onlyIfAbsent // check first node without acquiring lock
                      && fh == hash
-                     && ((fk = f.key) == key || (fk != null && key.equals(fk)))
+                     && ((fk = f.key) == key || (fk != null && key.specialEquals(fk)))
                      && (fv = f.val) != null)
                 return fv;
             else {
@@ -1048,7 +1048,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                                 K ek;
                                 if (e.hash == hash &&
                                     ((ek = e.key) == key ||
-                                     (ek != null && key.equals(ek)))) {
+                                     (ek != null && key.specialEquals(ek)))) {
                                     oldVal = e.val;
                                     if (!onlyIfAbsent)
                                         e.val = value;
@@ -1141,10 +1141,10 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                                 K ek;
                                 if (e.hash == hash &&
                                     ((ek = e.key) == key ||
-                                     (ek != null && key.equals(ek)))) {
+                                     (ek != null && key.specialEquals(ek)))) {
                                     V ev = e.val;
                                     if (cv == null || cv == ev ||
-                                        (ev != null && cv.equals(ev))) {
+                                        (ev != null && cv.specialEquals(ev))) {
                                         oldVal = ev;
                                         if (value != null)
                                             e.val = value;
@@ -1168,7 +1168,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                                 (p = r.findTreeNode(hash, key, null)) != null) {
                                 V pv = p.val;
                                 if (cv == null || cv == pv ||
-                                    (pv != null && cv.equals(pv))) {
+                                    (pv != null && cv.specialEquals(pv))) {
                                     oldVal = pv;
                                     if (value != null)
                                         p.val = value;
@@ -1372,7 +1372,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
             for (Node<K,V> p; (p = it.advance()) != null; ) {
                 V val = p.val;
                 Object v = m.get(p.key);
-                if (v == null || (v != val && !v.equals(val)))
+                if (v == null || (v != val && !v.specialEquals(val)))
                     return false;
             }
             for (Map.Entry<?,?> e : m.entrySet()) {
@@ -1380,7 +1380,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                 if ((mk = e.getKey()) == null ||
                     (mv = e.getValue()) == null ||
                     (v = get(mk)) == null ||
-                    (mv != v && !mv.equals(v)))
+                    (mv != v && !mv.specialEquals(v)))
                     return false;
             }
         }
@@ -1505,7 +1505,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                         for (q = first; q != null; q = q.next) {
                             if (q.hash == h &&
                                 ((qk = q.key) == k ||
-                                 (qk != null && k.equals(qk)))) {
+                                 (qk != null && k.specialEquals(qk)))) {
                                 insertAtFront = false;
                                 break;
                             }
@@ -1734,7 +1734,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
             else if ((fh = f.hash) == MOVED)
                 tab = helpTransfer(tab, f);
             else if (fh == h    // check first node without acquiring lock
-                     && ((fk = f.key) == key || (fk != null && key.equals(fk)))
+                     && ((fk = f.key) == key || (fk != null && key.specialEquals(fk)))
                      && (fv = f.val) != null)
                 return fv;
             else {
@@ -1747,7 +1747,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                                 K ek;
                                 if (e.hash == h &&
                                     ((ek = e.key) == key ||
-                                     (ek != null && key.equals(ek)))) {
+                                     (ek != null && key.specialEquals(ek)))) {
                                     val = e.val;
                                     break;
                                 }
@@ -1840,7 +1840,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                                 K ek;
                                 if (e.hash == h &&
                                     ((ek = e.key) == key ||
-                                     (ek != null && key.equals(ek)))) {
+                                     (ek != null && key.specialEquals(ek)))) {
                                     val = remappingFunction.apply(key, e.val);
                                     if (val != null)
                                         e.val = val;
@@ -1952,7 +1952,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                                 K ek;
                                 if (e.hash == h &&
                                     ((ek = e.key) == key ||
-                                     (ek != null && key.equals(ek)))) {
+                                     (ek != null && key.specialEquals(ek)))) {
                                     val = remappingFunction.apply(key, e.val);
                                     if (val != null)
                                         e.val = val;
@@ -2068,7 +2068,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                                 K ek;
                                 if (e.hash == h &&
                                     ((ek = e.key) == key ||
-                                     (ek != null && key.equals(ek)))) {
+                                     (ek != null && key.specialEquals(ek)))) {
                                     val = remappingFunction.apply(e.val, value);
                                     if (val != null)
                                         e.val = val;
@@ -2261,7 +2261,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                 for (;;) {
                     int eh; K ek;
                     if ((eh = e.hash) == h &&
-                        ((ek = e.key) == k || (ek != null && k.equals(ek))))
+                        ((ek = e.key) == k || (ek != null && k.specialEquals(ek))))
                         return e;
                     if (eh < 0) {
                         if (e instanceof ForwardingNode) {
@@ -2756,7 +2756,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                         p = pl;
                     else if (ph < h)
                         p = pr;
-                    else if ((pk = p.key) == k || (pk != null && k.equals(pk)))
+                    else if ((pk = p.key) == k || (pk != null && k.specialEquals(pk)))
                         return p;
                     else if (pl == null)
                         p = pr;
@@ -2907,7 +2907,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                     int s; K ek;
                     if (((s = lockState) & (WAITER|WRITER)) != 0) {
                         if (e.hash == h &&
-                            ((ek = e.key) == k || (ek != null && k.equals(ek))))
+                            ((ek = e.key) == k || (ek != null && k.specialEquals(ek))))
                             return e;
                         e = e.next;
                     }
@@ -2947,7 +2947,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                     dir = -1;
                 else if (ph < h)
                     dir = 1;
-                else if ((pk = p.key) == k || (pk != null && k.equals(pk)))
+                else if ((pk = p.key) == k || (pk != null && k.specialEquals(pk)))
                     return p;
                 else if ((kc == null &&
                           (kc = comparableClassFor(k)) == null) ||
@@ -3546,8 +3546,8 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
             return ((o instanceof Map.Entry) &&
                     (k = (e = (Map.Entry<?,?>)o).getKey()) != null &&
                     (v = e.getValue()) != null &&
-                    (k == key || k.equals(key)) &&
-                    (v == val || v.equals(val)));
+                    (k == key || k.specialEquals(key)) &&
+                    (v == val || v.specialEquals(val)));
         }
 
         /**
@@ -4744,7 +4744,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
         public final boolean remove(Object o) {
             if (o != null) {
                 for (Iterator<V> it = iterator(); it.hasNext();) {
-                    if (o.equals(it.next())) {
+                    if (o.specialEquals(it.next())) {
                         it.remove();
                         return true;
                     }
@@ -4818,7 +4818,7 @@ public class ConcurrentHashMap<K,V> extends AbstractMap<K,V>
                     (k = (e = (Map.Entry<?,?>)o).getKey()) != null &&
                     (r = map.get(k)) != null &&
                     (v = e.getValue()) != null &&
-                    (v == r || v.equals(r)));
+                    (v == r || v.specialEquals(r)));
         }
 
         public boolean remove(Object o) {

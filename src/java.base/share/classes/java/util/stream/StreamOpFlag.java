@@ -237,7 +237,7 @@ enum StreamOpFlag {
 
     /**
      * Characteristic value signifying that, for each pair of
-     * encountered elements in a stream {@code x, y}, {@code !x.equals(y)}.
+     * encountered elements in a stream {@code x, y}, {@code !x.specialEquals(y)}.
      * <p>
      * A stream may have this value or an intermediate operation can preserve,
      * clear or inject this value.

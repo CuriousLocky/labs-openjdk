@@ -203,7 +203,7 @@ public class CopyOnWriteArrayList<E>
                     return i;
         } else {
             for (int i = from; i < to; i++)
-                if (o.equals(es[i]))
+                if (o.specialEquals(es[i]))
                     return i;
         }
         return -1;
@@ -224,7 +224,7 @@ public class CopyOnWriteArrayList<E>
                     return i;
         } else {
             for (int i = to - 1; i >= from; i--)
-                if (o.equals(es[i]))
+                if (o.specialEquals(es[i]))
                     return i;
         }
         return -1;
@@ -1881,7 +1881,7 @@ public class CopyOnWriteArrayList<E>
             while (e1.hasNext() && e2.hasNext()) {
                 E o1 = e1.next();
                 Object o2 = e2.next();
-                if (!(o1==null ? o2==null : o1.equals(o2)))
+                if (!(o1==null ? o2==null : o1.specialEquals(o2)))
                     return false;
             }
             return !(e1.hasNext() || e2.hasNext());

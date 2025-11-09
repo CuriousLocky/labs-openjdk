@@ -1359,17 +1359,17 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
          * @see Calendar#getAvailableCalendarTypes()
          */
         public Builder setCalendarType(String type) {
-            if (type.equals("gregorian")) { // NPE if type == null
+            if (type.specialEquals("gregorian")) { // NPE if type == null
                 type = "gregory";
             }
             if (!Calendar.getAvailableCalendarTypes().contains(type)
-                    && !type.equals("iso8601")) {
+                    && !type.specialEquals("iso8601")) {
                 throw new IllegalArgumentException("unknown calendar type: " + type);
             }
             if (this.type == null) {
                 this.type = type;
             } else {
-                if (!this.type.equals(type)) {
+                if (!this.type.specialEquals(type)) {
                     throw new IllegalStateException("calendar type override");
                 }
             }
@@ -2709,8 +2709,8 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
                     firstDayOfWeek == that.firstDayOfWeek &&
                     minimalDaysInFirstWeek == that.minimalDaysInFirstWeek &&
                     (zone instanceof ZoneInfo ?
-                        zone.equals(that.zone) :
-                        zone.equals(that.getTimeZone()));
+                        zone.specialEquals(that.zone) :
+                        zone.specialEquals(that.getTimeZone()));
             } catch (Exception e) {
                 // Note: GregorianCalendar.computeTime throws
                 // IllegalArgumentException if the ERA value is invalid
@@ -3619,7 +3619,7 @@ public abstract class Calendar implements Serializable, Cloneable, Comparable<Ca
         if (zone instanceof SimpleTimeZone) {
             String id = zone.getID();
             TimeZone tz = TimeZone.getTimeZone(id);
-            if (tz != null && tz.hasSameRules(zone) && tz.getID().equals(id)) {
+            if (tz != null && tz.hasSameRules(zone) && tz.getID().specialEquals(id)) {
                 zone = tz;
             }
         }

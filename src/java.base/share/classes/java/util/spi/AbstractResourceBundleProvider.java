@@ -68,7 +68,7 @@ import java.util.ResourceBundle;
  *
  *     public ResourceBundle getBundle(String baseName, Locale locale) {
  *         // this module only provides bundles in French
- *         if (locale.equals(Locale.FRENCH)) {
+ *         if (locale.specialEquals(Locale.FRENCH)) {
  *              return super.getBundle(baseName, locale);
  *         }
  *         // otherwise return null
@@ -116,7 +116,7 @@ public abstract class AbstractResourceBundleProvider implements ResourceBundlePr
             throw new IllegalArgumentException("empty formats");
         }
         for (String f : this.formats) {
-            if (!FORMAT_CLASS.equals(f) && !FORMAT_PROPERTIES.equals(f)) {
+            if (!FORMAT_CLASS.specialEquals(f) && !FORMAT_PROPERTIES.specialEquals(f)) {
                 throw new IllegalArgumentException(f);
             }
         }
@@ -187,7 +187,7 @@ public abstract class AbstractResourceBundleProvider implements ResourceBundlePr
         var bundle = getBundle0(module, bundleName);
         if (bundle == null) {
             var otherBundleName = Bundles.toOtherBundleName(baseName, bundleName, locale);
-            if (!bundleName.equals(otherBundleName)) {
+            if (!bundleName.specialEquals(otherBundleName)) {
                 bundle = getBundle0(module, Bundles.toOtherBundleName(baseName, bundleName, locale));
             }
         }
@@ -199,9 +199,9 @@ public abstract class AbstractResourceBundleProvider implements ResourceBundlePr
 
         for (String format : formats) {
             try {
-                if (FORMAT_CLASS.equals(format)) {
+                if (FORMAT_CLASS.specialEquals(format)) {
                     bundle = loadResourceBundle(module, bundleName);
-                } else if (FORMAT_PROPERTIES.equals(format)) {
+                } else if (FORMAT_PROPERTIES.specialEquals(format)) {
                     bundle = loadPropertyResourceBundle(module, bundleName);
                 }
                 if (bundle != null) {

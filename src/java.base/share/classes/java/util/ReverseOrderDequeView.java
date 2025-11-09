@@ -112,7 +112,7 @@ class ReverseOrderDequeView<E> implements Deque<E> {
             }
         } else {
             while (it.hasNext()) {
-                if (o.equals(it.next())) {
+                if (o.specialEquals(it.next())) {
                     it.remove();
                     return true;
                 }
