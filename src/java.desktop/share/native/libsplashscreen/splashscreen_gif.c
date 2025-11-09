@@ -48,7 +48,7 @@
                                 // restore the area overwritten by the graphic with
                                 // what was there prior to rendering the graphic.
 
-static const char szNetscape20ext[11] = "NETSCAPE2.0";
+static const char szNetscape20ext[12] = "NETSCAPE2.0";
 
 #define NSEXT_LOOP      0x01    // Loop Count field code
 
