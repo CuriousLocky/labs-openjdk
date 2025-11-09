@@ -371,6 +371,24 @@ public class ArrayList<E> extends AbstractList<E>
     }
 
     /**
+     * Returns an inner array containing all of the elements in this list
+     * in proper sequence (from first to last element).
+     *
+     * <p>
+     * The returned array is not safe and cannot be modified or leaked!
+     *
+     * <p>
+     * This method acts as bridge between array-based and collection-based
+     * APIs.
+     *
+     * @return an array containing all of the elements in this list in
+     *         proper sequence
+     */
+    public Object[] toInnerArray() {
+        return this.elementData;
+    }
+
+    /**
      * Returns an array containing all of the elements in this list in proper
      * sequence (from first to last element); the runtime type of the returned
      * array is that of the specified array.  If the list fits in the

@@ -756,6 +756,22 @@ final class StringUTF16 {
         }
     }
 
+    public static int lastIndexOf(byte[] value, int ch, int fromIndex, int endIndex) {
+        if (ch < Character.MIN_SUPPLEMENTARY_CODE_POINT) {
+            // handle most cases here (ch is a BMP code point or a
+            // negative value (invalid code point))
+            int i = Math.min(fromIndex, (value.length >> 1) - 1);
+            for (; i >= endIndex; i--) {
+                if (getChar(value, i) == ch) {
+                    return i;
+                }
+            }
+            return -1;
+        } else {
+            return lastIndexOfSupplementary(value, ch, fromIndex);
+        }
+    }
+
     public static int lastIndexOf(byte[] value, int ch, int fromIndex) {
         if (ch < Character.MIN_SUPPLEMENTARY_CODE_POINT) {
             // handle most cases here (ch is a BMP code point or a

@@ -5039,4 +5039,124 @@ public non-sealed class String
         return this;
     }
 
+    /**
+     * Returns the length of this string if this is a special string.
+     * The length is equal to the number of <a href="Character.html#unicode">Unicode
+     * code units</a> in the string.
+     *
+     * @return  the length of the sequence of characters represented by this
+     *          object.
+     */
+    public int specialLength() {
+        return value.length >> coder();
+    }
+
+    /**
+     * This is a comment to make openjdk build system happy
+     *
+     * @param strings The input strings
+     * @return the result
+     */
+    public static String staticConcat(String... strings) {
+        int totalLen = 0;
+        for (String str : strings) {
+            totalLen += str.length();
+        }
+        byte[] resultValue = new byte[totalLen];
+        int filled = 0;
+        for (String str : strings) {
+            str.getBytes(resultValue, filled, str.coder);
+            filled += str.length();
+        }
+        return new String(resultValue, LATIN1);
+    }
+
+
+    /**
+     * This is a comment to make openjdk build system happy
+     *
+     * @param size the size
+     * @return the result
+     */
+    public static String[] getArgArray(int size) {
+        return new String[size];
+    }
+
+    /**
+     * This is a comment to make openjdk build system happy
+     *
+     * @param str1 string 1
+     * @param str2 string 2
+     * @return the result
+     */
+    public static String staticConcat2(String str1, String str2) {
+        return str1 + str2;
+    }
+
+    /**
+     * This is a comment to make openjdk build system happy
+     *
+     * @param str1 string 1
+     * @param str2 string 2
+     * @param str3 string 3
+     * @return the result
+     */
+    public static String staticConcat3(String str1, String str2, String str3) {
+        return str1 + str2 + str3;
+    }
+
+    /**
+     * This is a comment to make openjdk build system happy
+     *
+     * @param str1 string 1
+     * @param str2 string 2
+     * @param str3 string 3
+     * @param str4 string 4
+     * @return the result
+     */
+    public static String staticConcat4(String str1, String str2, String str3, String str4) {
+        return str1 + str2 + str3 + str4;
+    }
+
+    /**
+     * This is a comment to make openjdk build system happy
+     *
+     * @param strings a string array
+     * @param sep seperator between strings
+     * @return the result
+     */
+    public static String staticConcatInterleaved(String[] strings, String sep){
+        String result = "";
+        for (int i = 0; i < strings.length - 1; i++) {
+            result += strings[i];
+            result += sep;
+        }
+        result += strings[strings.length - 1];
+        return result;
+    }
+
+    /**
+     * This is a comment to make openjdk build system happy
+     *
+     * @param other the other string being compared with
+     * @return the result
+     */
+    @Override
+    public boolean specialEquals(Object other) {
+        return equals(other);
+    }
+
+    /**
+     * This is a comment to make openjdk build system happy
+     *
+     * @param index the index
+     * @return the result
+     */
+    public char specialCharAt(int index) {
+        if (isLatin1()) {
+            return StringLatin1.charAt(value, index);
+        } else {
+            return StringUTF16.charAt(value, index);
+        }
+    }
 }

@@ -272,6 +272,19 @@ final class StringLatin1 {
         }
     }
 
+    public static int lastIndexOf(final byte[] value, int ch, int fromIndex, int endIndex) {
+        if (!canEncode(ch)) {
+            return -1;
+        }
+        int off  = Math.min(fromIndex, value.length - 1);
+        for (; off >= endIndex; off--) {
+            if (value[off] == (byte)ch) {
+                return off;
+            }
+        }
+        return -1;
+    }
+
     public static int lastIndexOf(final byte[] value, int ch, int fromIndex) {
         if (!canEncode(ch)) {
             return -1;
