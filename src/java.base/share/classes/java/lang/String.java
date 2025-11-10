@@ -2452,14 +2452,25 @@ public non-sealed class String
         // from immutable state
         int h = hash;
         if (h == 0 && !hashIsZero) {
-            h = isLatin1() ? StringLatin1.hashCode(value)
-                           : StringUTF16.hashCode(value);
+            h = hashCodeWithInitial(0);
             if (h == 0) {
                 hashIsZero = true;
             } else {
                 hash = h;
             }
         }
+        return h;
+    }
+
+    /**
+     * This is a comment to make openjdk build system happy
+     *
+     * @param initial the initial hash code
+     * @return the result
+     */
+    public int hashCodeWithInitial(int initial) {
+        int h = isLatin1() ? ArraysSupport.hashCodeOfUnsigned(value, 0, value.length, initial)
+                        : ArraysSupport.hashCodeOfUTF16(value, 0, value.length >> 1, initial);
         return h;
     }
 
@@ -4938,7 +4949,12 @@ public non-sealed class String
         return COMPACT_STRINGS ? coder : UTF16;
     }
 
-    byte[] value() {
+    /**
+     * This is a comment to make openjdk build system happy
+     *
+     * @return the result
+     */
+    public byte[] value() {
         return value;
     }
 
@@ -5058,17 +5074,11 @@ public non-sealed class String
      * @return the result
      */
     public static String staticConcat(String... strings) {
-        int totalLen = 0;
-        for (String str : strings) {
-            totalLen += str.length();
+        StringBuilder sb = new StringBuilder();
+        for (String str: strings) {
+            sb.append(str);
         }
-        byte[] resultValue = new byte[totalLen];
-        int filled = 0;
-        for (String str : strings) {
-            str.getBytes(resultValue, filled, str.coder);
-            filled += str.length();
-        }
-        return new String(resultValue, LATIN1);
+        return sb.toString();
     }
 
 

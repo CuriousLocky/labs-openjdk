@@ -291,7 +291,7 @@ final class RegularEnumSet<E extends Enum<E>> extends EnumSet<E> {
      */
     public boolean equals(Object o) {
         if (!(o instanceof RegularEnumSet<?> es))
-            return super.specialEquals(o);
+            return super.equals(o);
 
         if (es.elementType != elementType)
             return elements == 0 && es.elements == 0;
